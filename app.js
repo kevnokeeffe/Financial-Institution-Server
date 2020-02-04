@@ -3,12 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const bodyParser = require('body-parser');
+const cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+require('dotenv').config()
 var app = express();
+// Configuring body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+
+app.use(cors());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
