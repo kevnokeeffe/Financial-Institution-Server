@@ -1,8 +1,12 @@
-import express from 'express'
-const router = express.Router()
+let express = require('express')
+let router = express.Router();
+const accountControler = require('../controllers/accounts/account-controlers')
 
-router.post()
-router.get()
-router.get()
-router.put()
-router.delete()
+// Create account
+ router.post('/create', accountControler.createCurrentAccount);
+// router.get()
+// router.get()
+// router.put()
+// router.delete()
+
+module.exports = router;
