@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose');
 
 const accountSchema = new mongoose.Schema({
     financialInstitutionID: {type: String}, //fk
@@ -35,4 +35,4 @@ const accountSchema = new mongoose.Schema({
     dueDate: {type: String}
 },{ collection: 'savings-account' })
 accountSchema.set('timestamps', true)
-export default mongoose.model('savings-account', accountSchema)
+module.exports = mongoose.model('savings-account', accountSchema)

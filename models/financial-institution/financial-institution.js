@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose');
 
 const FISchema = new mongoose.Schema({
     userID: {type: String}, //fk
@@ -17,4 +17,4 @@ const FISchema = new mongoose.Schema({
     uploadDate: {type: Date, default: Date.now}
 },{ collection: 'financial-institutions' })
 FISchema.set('timestamps', true)
-export default mongoose.model('financial-institution',FISchema)
+module.exports = mongoose.model('financial-institution',FISchema)

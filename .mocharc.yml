@@ -1,0 +1,3 @@
+file:
+    - ./test/functional/api/dummy-test.js
+require: '@babel/register'

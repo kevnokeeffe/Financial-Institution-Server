@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+const mongoose = require('./db/mongoose')
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -7,8 +8,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const mongoose = require('./db/mongoose');
 const accountRouter = require('./routes/account-routes');
+const userRoutes = require('./routes/user-routes');
 
 require('dotenv').config()
 var app = express();
@@ -30,7 +31,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/account', accountRouter);
+app.use('/api/user', userRoutes);
+app.use('/api/account', accountRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

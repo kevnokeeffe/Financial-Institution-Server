@@ -204,7 +204,7 @@ router.removeCurrentAccount = (req, res) => {
 }
 
 // Remove savings account
-router.remove = (req, res) => {
+router.removeSavingsAccount = (req, res) => {
   const id = 5;
   SAccount.findOne({_id: req.params.id}, (error, account) => {
     if(error){
@@ -227,7 +227,7 @@ router.remove = (req, res) => {
 }
 
 // Find one single current account by id
-router.showCurrent = (req, res) => {
+router.showIndividualCurrentAccount = (req, res) => {
   CAccount.findOne({_id: req.params.id}, (error, account) => {
     if(error){
       return res.status(500).json()
@@ -240,7 +240,7 @@ router.showCurrent = (req, res) => {
 }
 
 // Find one single savings account by id
-router.showSavings = (req, res) => {
+router.showIndividualSavingsAccount = (req, res) => {
   SAccount.findOne({_id: req.params.id}, (error, account) => {
     if(error){
       return res.status(500).json()

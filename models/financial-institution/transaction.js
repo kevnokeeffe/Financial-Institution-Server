@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose');
 
 const TransactionSchema = new mongoose.Schema({
     account_from_ID: {type: String}, //fk
@@ -16,4 +16,4 @@ const TransactionSchema = new mongoose.Schema({
     timeStamp: {type: Date, default: Date.now}
 },{ collection: 'financial-institution-transaction' })
 TransactionSchema.set('timestamps', true)
-export default mongoose.model('financial-institution-transaction',TransactionSchema)
+module.exports = mongoose.model('financial-institution-transaction',TransactionSchema)
