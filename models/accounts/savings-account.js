@@ -31,7 +31,8 @@ const accountSchema = new mongoose.Schema({
     accountRequestID: {type: String},
     active: {type: Boolean},
     registered: {type: String},
-    last_login: {type: String}
+    last_login: {type: String},
+    dueDate: {type: String}
 },{ collection: 'savings-account' })
 accountSchema.set('timestamps', true)
 export default mongoose.model('savings-account', accountSchema)

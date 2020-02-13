@@ -1,6 +1,6 @@
 let express = require('express')
 let router = express.Router();
-const accountControler = require('../controllers/accounts/account-controlers')
+const accountControler = require('../controllers/accounts/account-controllers')
 
 // Create account
  router.post('/create', accountControler.createCurrentAccount);
