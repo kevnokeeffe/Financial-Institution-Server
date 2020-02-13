@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const mongoose = require('mongoose')
 require('dotenv').config()
 var app = express();
 // Configuring body parser middleware
