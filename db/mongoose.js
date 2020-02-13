@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-require('dotenv').config();
+const mongoose = require('mongoose')
+mongoose.Promise = global.Promise
+require('dotenv').config()
 
 mongoose
     .connect(
