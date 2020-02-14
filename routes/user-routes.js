@@ -12,6 +12,8 @@ router.get('/bank', (req, res) => {
 router.post('/register', register.registerIndex)
 
 // Login route
-router.post('/login', login.index)
+router.post('/login-access', login.accessJWTLogin)
 
+// Login route for refresh JWT
+router.post('/login-refresh', login.refreshJWTLogin)
 module.exports = router;

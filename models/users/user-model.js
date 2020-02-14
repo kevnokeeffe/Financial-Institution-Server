@@ -11,11 +11,11 @@ const User = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
-    unique: true,
-    minLength: 5,
-    trim: true,
-    match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+    // required: true,
+    // unique: true,
+    // minLength: 5,
+    trim: true
+    // match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
     // validate: {
     //   validator: validator.isEmail,
     //   message: '{VALUE} is not a valid email!'
@@ -23,13 +23,15 @@ const User = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    // required: true,
     trim: true
   }
 })
 
 User.set('timestamps', true)
-
+User.statics.passwordMatches = function(password, hash){
+  return bcrypt.compareSync(password, hash)
+}
 User.pre('save', function(next) {
   let user = this
 

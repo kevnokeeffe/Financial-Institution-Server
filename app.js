@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+const mongoose = require('./db/mongoose')
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -9,7 +10,6 @@ var indexRouter = require('./routes/index');
 let testRouter = require('./routes/test');
 let accountRouter = require('./routes/account-routes');
 let userRouter = require('./routes/user-routes')
-const mongoose = require('./db/mongoose')
 require('dotenv').config()
 var app = express();
 // Configuring body parser middleware
@@ -29,9 +29,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/test', testRouter);
-app.use('/account', accountRouter);
-app.use('/user', userRouter);
+app.use('/api/test', testRouter);
+app.use('/api/account', accountRouter);
+app.use('/api/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
