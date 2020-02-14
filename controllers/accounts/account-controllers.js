@@ -76,7 +76,7 @@ router.createSavingsAccount = (req, res, next) => {
 }
 
 // Find all Current Accounts
-router.indexCurrnetAccount = (req, res) => {
+router.indexCurrentAccount = (req, res) => {
   CAccount.find({}, (error, account) => {
     if (error) {
       return res.status(500).json()

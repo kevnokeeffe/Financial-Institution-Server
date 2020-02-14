@@ -1,6 +1,6 @@
-import { StringUtil } from '../../utilities/string-util'
-import User from '../models/user-model'
-import { generateJWT } from '../../services/auth-service'
+let StringUtil = require('../../utilities/string-util').StringUtil
+let User = require ('../../models/users/user-model')
+let generateJWT = require ('../../services/auth-service').generateJWT
 let express = require('express')
 let router = express.Router()
 

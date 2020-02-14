@@ -1,7 +1,7 @@
 const StringUtil = require('../../utilities/string-util')
 const express = require('express')
 let router = express.Router()
-import User from '../models/user-model'
+let User = require ('../../models/users/user-model')
 
 // Register User
 router.registerIndex = (req,res) => {

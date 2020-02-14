@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 let register = require('../controllers/users/register-controler')
 let login = require('../controllers/users/auth-controller')
 

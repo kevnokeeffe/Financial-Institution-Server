@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
+// const validator = require('validatorjs')
 const bcrypt = require('bcryptjs')
 
 const User = new mongoose.Schema({
@@ -16,10 +16,10 @@ const User = new mongoose.Schema({
     minLength: 5,
     trim: true,
     match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-    validate: {
-      validator: validator.isEmail,
-      message: '{VALUE} is not a valid email!'
-    }
+    // validate: {
+    //   validator: validator.isEmail,
+    //   message: '{VALUE} is not a valid email!'
+    // }
   },
   password: {
     type: String,
