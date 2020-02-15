@@ -5,8 +5,40 @@ let User = require ('../../models/users/user-model')
 let auth = require ('../../services/auth-service')
 const bcrypt = require('bcryptjs')
 
-// Login User
 router.refreshJWTLogin = (req, res) => {
+  res.setHeader('Content-Type', 'application/json')
+  const { email } = req.body
+  User.findOne({ email })
+    .then(user => {
+      if (!user) {
+        return res.status(404).send(err, { message: 'User not found' })
+      }
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then(match => {
+          if (!match) {
+            return res.status(401).send({ auth: false, token: null })
+          }
+          const token = auth.generateRefreshJWT(user)
+          return res
+            .status(200)
+            .send({ message: 'Login Successful', token: token })
+        })
+        .catch(err => {
+          // where the error is
+          return res.status(409).send({ error: err })
+        })
+    })
+    .catch(err => {
+      if (err) {
+        return res.status(401).send(err)
+      }
+      return res.status(401).send(err)
+    })
+}
+
+// Login User
+router.JWTLogin = (req, res) => {
     const validation = validateIndex(req.body)
     if(!validation.isValid){
         return res.status(400).json({ message: validation.message })
