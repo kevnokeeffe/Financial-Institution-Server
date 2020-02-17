@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const accountSchema = new mongoose.Schema({
     financialInstitutionID: {type: String}, //fk
-    userId: {type: String}, //fk
+    userID: {type: String}, //fk
     consentId: {type: String},
     refreshToken: {type: String},
     accessToken: {type: String, required: true},

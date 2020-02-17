@@ -12,7 +12,7 @@ router.createFi = (req, res, next) => {
       //     return res.status(422).json({ message: 'FI already exists!' })
       //   } else {
           const fi = new FImodel({
-            userId: req.body.userId, //fk
+            userID: req.body.userID, //fk
             fiName: req.body.fiName,
             fiAddress: req.body.fiAddress,
             fiAddress:[{
@@ -44,4 +44,27 @@ router.createFi = (req, res, next) => {
       // })
   //}
 
-  module.exports = router;
+// Find all FI - should just be the One
+router.indexFI = (req, res) => {
+  FImodel.find({}, (error, account) => {
+    if (error) {
+      return res.status(500).json()
+    }
+    return res.status(200).json({ account:account})
+  }).populate('userID','fiName','fiAddress','accounts','fiType')
+}
+
+// Find one single current account by id
+router.showFI = (req, res) => {
+  FImodel.findOne({userID: req.params.userID}, (error, account) => {
+    if(error){
+      return res.status(500).json()
+    }
+    if(!account) {
+      return res.status(404).json()
+    }
+    return res.status(200).json({account: account})
+  }) // maybe add a .populate
+}
+
+module.exports = router;

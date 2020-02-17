@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const currentAccountSchema = new mongoose.Schema({
     accountName: {type: String},
     accountId: {type: String},
-    userId: {type: String}, //fk
+    userID: {type: String}, //fk
     accountType: {type: String},
     balance: {type: Number},
     overDraft: {type: Number},

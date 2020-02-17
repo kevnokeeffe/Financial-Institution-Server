@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const TransactionSchema = new mongoose.Schema({
+    userID: {type: String},
     account_from_ID: {type: String}, //fk
     account_to_ID: {type: String}, //fk
     transactionType: {type: String},

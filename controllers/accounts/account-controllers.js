@@ -27,10 +27,10 @@ router.createCurrentAccount = (req, res, next) => {
         account
           .save()
           .then(result => {
-            res.status(200).send({ auth: true, message: 'Account Created' })
+            result.status(200).send({ auth: true, message: 'Account Created' })
           })
           .catch(err => {
-            res
+            result
               .status(500)
               .json({ message: 'Error Invalid Inputs', error: err })
           })
@@ -79,10 +79,10 @@ router.createSavingsAccount = (req, res, next) => {
 router.indexCurrentAccount = (req, res) => {
   CAccount.find({}, (error, account) => {
     if (error) {
-      return res.status(500).json()
+      return res.status(501).send({message: "No Account Available"})
     }
-    return res.status(200).json({ account:account})
-  }).populate('userId','accountType','balance','iban')
+    return res.status(200).send({ account:account})
+  })// .populate('balance','accountType','balance','iban') => .populate doesn't work for some reason
 }
 
 // Find all Savings Accounts
@@ -92,7 +92,7 @@ router.indexSavingsAccount = (req, res) => {
       return res.status(500).json()
     }
     return res.status(200).json({ account:account})
-  }).populate('userId','accountType','balance','iban')
+  })//.populate('userId','accountType','balance','iban')
 }
 
 router.createCurrent = (req, res) => {
