@@ -76,8 +76,8 @@ router.createSavingsAccount = (req, res, next) => {
 }
 
 // Find all Current Accounts
-router.indexCurrentAccount = (req, res) => {
-  CAccount.find({}, (error, account) => {
+router.indexCurrentAccount = async (req, res) => {
+  await CAccount.find({}, (error, account) => {
     if (error) {
       return res.status(501).send({message: "No Account Available"})
     }
