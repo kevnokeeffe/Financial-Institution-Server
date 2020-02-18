@@ -11,6 +11,6 @@ const currentAccountSchema = new mongoose.Schema({
     iban: {type: String},
     dueDate: {type: String}
     
-},{ collection: 'current-account' });
+},{ collection: 'currentAccount' });
 currentAccountSchema.set('timestamps', true)
-module.exports = mongoose.model('current-account', currentAccountSchema)
+module.exports = mongoose.model('currentAccount', currentAccountSchema)

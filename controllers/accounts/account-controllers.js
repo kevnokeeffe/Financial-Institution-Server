@@ -9,12 +9,12 @@ let moment = require ('moment')
 
 router.createCurrentAccount = (req, res, next) => {
   res.setHeader('Content-Type', 'application/json')
-  CAccount.find({ id: req.body._id })
-    .exec()
-    .then(account => {
-      if (account.length >= 1) {
-        return res.status(422).json({ message: 'Account already exists!' })
-      } else {
+  // CAccount.find({ id: req.body._id })
+  //   .exec()
+  //   .then(account => {
+  //     if (account != account) {
+  //       return res.status(422).json({ message: 'Account already exists!' })
+  //     } else {
         const account = new CAccount({
           userId: req.body.userId, //fk
           accountType: req.body.accountType,
@@ -35,11 +35,11 @@ router.createCurrentAccount = (req, res, next) => {
               .json({ message: 'Error Invalid Inputs', error: err })
           })
       }
-    })
-    .catch(err => {
-      res.status(500).json({ message: 'Error Invalid Inputs', error: err })
-    })
-}
+//     })
+//     .catch(err => {
+//       res.status(500).json({ message: 'Error Invalid Inputs', error: err })
+//     })
+// }
 
 router.createSavingsAccount = (req, res, next) => {
   res.setHeader('Content-Type', 'application/json')

@@ -33,6 +33,6 @@ const accountSchema = new mongoose.Schema({
     registered: {type: String},
     last_login: {type: String},
     dueDate: {type: String}
-},{ collection: 'savings-account' })
+},{ collection: 'savingsAccount' })
 accountSchema.set('timestamps', true)
-module.exports = mongoose.model('savings-account', accountSchema)
+module.exports = mongoose.model('savingsAccount', accountSchema)

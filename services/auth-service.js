@@ -15,10 +15,10 @@ router.generateAccessJWT = user => {
     lName: user.lName,
     id: user._id,
     email: user.email,
-    fiName: fi.fiName,
-    fiAddress: fi.fiAddress,
-    accounts: fi.accounts,
-    fiType: fi.fiType 
+    // fiName: fi.fiName,
+    // fiAddress: fi.fiAddress,
+    // accounts: fi.accounts,
+    // fiType: fi.fiType 
   }
   return (token = jwt.sign(tokenData, process.env.SECRET_KEY_ACCESS, {
     expiresIn: 300000
@@ -34,7 +34,11 @@ router.generateRefreshJWT = user => {
     fName: user.fName,
     lName: user.lName,
     id: user._id,
-    email: user.email
+    email: user.email,
+    // fiName: fi.fiName,
+    // fiAddress: fi.fiAddress,
+    // accounts: fi.accounts,
+    // fiType: fi.fiType 
   }
   return (token = jwt.sign(tokenData, process.env.SECRET_KEY_REFRESH, {
     expiresIn: 7776000000
