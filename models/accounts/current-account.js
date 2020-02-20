@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 
 const currentAccountSchema = new mongoose.Schema({
+    fiName: {type: String},
     accountName: {type: String},
     accountId: {type: String},
-    userID: {type: String}, //fk
+    userId: {type: String}, //fk
+    bankId: {type:String}, //fk
     accountType: {type: String},
     balance: {type: Number},
     overDraft: {type: Number},

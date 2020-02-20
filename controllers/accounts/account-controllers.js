@@ -6,74 +6,75 @@ let User = require('../../models/users/user-model')
 let CurrentAccount = require ('../../models/accounts/current-account')
 let SavingsAccount = require ('../../models/accounts/savings-account')
 let moment = require ('moment')
+let Bank = require('../../models/financial-institution/financial-institution')
+let BankAccount = ''
+// router.createCurrentAccount = (req, res, next) => {
+//   res.setHeader('Content-Type', 'application/json')
+//   CAccount.find({_id: req.body._id })
+//     .exec()
+//     .then(account => {
+//       if (account != account) {
+//         return res.status(422).json({ message: 'Account already exists!' })
+//       } else {
+//         const account = new CAccount({
+//           userId: req.body.userId, //fk
+//           accountType: req.body.accountType,
+//           balance: req.body.balance,
+//           overDraft: req.body.overDraft,
+//           currency: req.body.currency,
+//           iban: req.body.iban
+//         })
 
-router.createCurrentAccount = (req, res, next) => {
-  res.setHeader('Content-Type', 'application/json')
-  // CAccount.find({ id: req.body._id })
-  //   .exec()
-  //   .then(account => {
-  //     if (account != account) {
-  //       return res.status(422).json({ message: 'Account already exists!' })
-  //     } else {
-        const account = new CAccount({
-          userId: req.body.userId, //fk
-          accountType: req.body.accountType,
-          balance: req.body.balance,
-          overDraft: req.body.overDraft,
-          currency: req.body.currency,
-          iban: req.body.iban
-        })
-
-        account
-          .save()
-          .then(result => {
-            result.status(200).send({ auth: true, message: 'Account Created' })
-          })
-          .catch(err => {
-            result
-              .status(500)
-              .json({ message: 'Error Invalid Inputs', error: err })
-          })
-      }
+//         account
+//           .save()
+//           .then(result => {
+//             result.status(200).send({ auth: true, message: 'Account Created' })
+//           })
+//           .catch(err => {
+//             result
+//               .status(500)
+//               .json({ message: 'Error Invalid Inputs', error: err })
+//           })
+//       }
 //     })
 //     .catch(err => {
 //       res.status(500).json({ message: 'Error Invalid Inputs', error: err })
 //     })
 // }
 
-router.createSavingsAccount = (req, res, next) => {
-  res.setHeader('Content-Type', 'application/json')
-  SAccount.find({ id: req.body._id })
-    .exec()
-    .then(account => {
-      if (account.length >= 1) {
-        return res.status(422).json({ message: 'Account already exists!' })
-      } else {
-        const account = new SAccount({
-          userId: req.body.userId, //fk
-          accountType: req.body.accountType,
-          balance: req.body.balance,
-          overDraft: req.body.overDraft,
-          currency: req.body.currency,
-          iban: req.body.iban
-        })
+// router.createSavingsAccount = (req, res, next) => {
+//   res.setHeader('Content-Type', 'application/json')
+//   SAccount.find({ id: req.body._id })
+//     .exec()
+//     .then(account => {
+//       if (account.length >= 1) {
+//         return res.status(422).json({ message: 'Account already exists!' })
+//       } else {
+//         const account = new SAccount({
+//           userId: req.body.userId, //fk
+//           accountType: req.body.accountType,
+//           balance: req.body.balance,
+//           overDraft: req.body.overDraft,
+//           currency: req.body.currency,
+//           iban: req.body.iban
+//         })
 
-        account
-          .save()
-          .then(result => {
-            res.status(200).send({ auth: true, message: 'Account Created' })
-          })
-          .catch(err => {
-            res
-              .status(500)
-              .json({ message: 'Error Invalid Inputs', error: err })
-          })
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ message: 'Error Invalid Inputs', error: err })
-    })
-}
+//         account
+//           .save()
+//           .then(result => {
+//             res.status(200).send({ auth: true, message: 'Account Created' })
+//           })
+//           .catch(err => {
+//             res
+//               .status(500)
+//               .json({ message: 'Error Invalid Inputs', error: err })
+//           })
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).json({ message: 'Error Invalid Inputs', error: err })
+//     })
+// }
 
 // Find all Current Accounts
 router.indexCurrentAccount = async (req, res) => {
@@ -95,15 +96,31 @@ router.indexSavingsAccount = (req, res) => {
   })//.populate('userId','accountType','balance','iban')
 }
 
-router.createCurrent = (req, res) => {
+router.createCurrentAccount = (req, res) => {
   // create current account
-  const id = 10
-  User.findOne({_id: id}, (error, user) => {
+  Bank.findOne({fiName: req.body.fiName}, (error, account) => {
+    if (error) {
+      return res.status(501).send({message: "No Account Available"})
+    }
+    console.log(account)
+    BankAccount = account._id
+    console.log(BankAccount)
+  })
+  User.findOne({_id: req.body._id}, (error, user) => {
     if(error && !user) {
       return res.status(500).json();
     }
-    const currentAccount = new CurrentAccount(req.body.currentAccount)
-    currentAccount.userId = user._id
+    const currentAccount = new CAccount({
+                fiName: req.body.fiName,
+                userId: req.body.userId, //fk
+                bankId: BankAccount, //fk
+                accountType: req.body.accountType,
+                balance: req.body.balance,
+                overDraft: req.body.overDraft,
+                currency: req.body.currency,
+                iban: req.body.iban
+              })
+    // currentAccount.userId = user._id
     currentAccount.dueDate = moment(currentAccount.dueDate)
 
     currentAccount.save(error => {
@@ -115,14 +132,14 @@ router.createCurrent = (req, res) => {
   })
 }
 
-router.createSavings = (req, res) => {
+router.createSavingsAccount = (req, res) => {
   // create savings account
-  const id = 10
-  User.findOne({_id: id}, (error, user) => {
+  // const id = 10
+  User.findOne({_id: req.body._id}, (error, user) => {
     if(error && !user) {
       return res.status(500).json();
     }
-    const createSavings = new SavingsAccount(req.body.createSavings)
+    const createSavings = new SAccount(req.body)
     createSavings.userId = user._id
     createSavings.dueDate = moment(createSavings.dueDate)
 
