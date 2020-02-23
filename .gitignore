@@ -2,6 +2,6 @@
 /package-lock.json
 /dist
 /.env
-config.js
+/config.js
 /coverage
 /.nyc_output
