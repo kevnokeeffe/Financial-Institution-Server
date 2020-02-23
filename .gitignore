@@ -3,3 +3,5 @@
 /dist
 .env
 config.js
+/coverage
+/.nyc_output

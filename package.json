@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nodemon ./bin/www",
     "test": "cross-env NODE_ENV=test mocha ",
+    "test:report": "nyc mocha",
     "compile": "babel ./ --out-dir dist/ --ignore ./node_modules,./test --copy-files",
     "start": "cross-env NODE_ENV=dev PORT=8001 node dist/bin/www",
     "clean": "rimraf ./dist && mkdir dist",
