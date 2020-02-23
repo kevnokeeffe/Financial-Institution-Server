@@ -5,6 +5,9 @@ cache:
   paths:
     - node_modules/
 
+services:
+   - mongo
+
 variables:
   NODE_ENV: 'test'
 
@@ -25,7 +28,5 @@ install_dependencies:
 
 Build_and_Test:
   stage: build
-  before_script:
-     - npm run clean
   script:
-    - npm run compile:all
+    - npm run build
