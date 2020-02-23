@@ -10,7 +10,8 @@
     "clean": "rimraf ./dist && mkdir dist",
     "build": "npm run compile",
     "postbuild": "npm start",
-    "prebuild": "npm-run-all test clean"
+    "prebuild": "npm-run-all test clean",
+    "start:watch": "cross-env NODE_ENV=dev nodemon --exec babel-node bin/www"
   },
   "dependencies": {
     "@babel/runtime": "^7.6.3",
