@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-// import chai from 'chai';
+import chai from 'chai';
 // Demo tests:
 describe("testing test", () => {
     it('should add two numbers correctly', function () {
