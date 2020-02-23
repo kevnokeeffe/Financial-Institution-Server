@@ -29,8 +29,11 @@ install_dependencies:
 
 Build_and_Test:
   stage: build
+  before_script:
+     - npm run clean
   script:
-    - npm run build
+    - npm run compile
+    - npm test
 
 coverage:
     stage: build
