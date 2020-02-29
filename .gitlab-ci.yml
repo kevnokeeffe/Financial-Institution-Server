@@ -16,9 +16,8 @@ stages:
   - install
   - build
   - deploy
-  - production
-# Jobs:
 
+# Jobs:
 install_dependencies:
   stage: install
   script:
@@ -32,7 +31,7 @@ Build_and_Test:
   before_script:
     - npm run clean
   script:
-    - npm run compile
+    - npm run compile:all
     - npm test
 
 coverage:
@@ -55,7 +54,7 @@ pages:
       - public
     expire_in: 30 days
 
-deploy_staging:
+deploy_production:
   image: ruby:latest
   only:
     - develop-test
@@ -65,5 +64,5 @@ deploy_staging:
     - apt-get install -y ruby-dev
     - gem install dpl
   script:
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME_STAGING --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
     - echo "Deployed to staging server"
