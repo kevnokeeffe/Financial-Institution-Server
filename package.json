@@ -15,11 +15,10 @@
     "compile:app": "babel app.js db.js --out-dir dist/",
     "compile:copy": "cp -r node_modules/ dist/node_modules && cp -r views/ dist/views && cp -r public/ dist/public",
     "compile:all": "npm-run-all compile:models compile:routes compile:middleware compile:services compile:app compile:copy",
-    "prebuild": "npm-run-all test clean lint",
-    "build:release": "npm-run-all test clean lint compile:all",
+    "prebuild": "npm-run-all test clean",
+    "build:release": "npm-run-all test clean compile:all",
     "postbuild": "npm start",
     "postinstall": "rimraf ./dist && npm run compile:all"
-   
   },
   "dependencies": {
     "@babel/runtime": "^7.6.3",
