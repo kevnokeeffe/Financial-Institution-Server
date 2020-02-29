@@ -13,12 +13,13 @@
     "compile:services":"babel ./services --out-dir dist/services",
     "compile:routes": "babel ./routes --out-dir dist/routes",
     "compile:app": "babel app.js --out-dir dist/",
+    "compile:bin": "babel ./bin --out-dir dist/bin",
     "compile:db": "babel ./db --out-dir dist/db",
     "compile:copy": "cp -r node_modules/ dist/node_modules && cp -r views/ dist/views && cp -r public/ dist/public",
     "compile:all": "npm-run-all compile:db compile:models compile:routes compile:middleware compile:services compile:app compile:copy",
     "prebuild": "npm-run-all test clean",
     "build:release": "npm-run-all test clean compile:all",
-    "postbuild": "npm start",
+    "postbuild": "npm run start",
     "postinstall": "rimraf ./dist && npm run compile:all"
   },
   "dependencies": {
