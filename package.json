@@ -17,7 +17,7 @@
     "compile:app": "babel app.js --out-dir dist/",
     "compile:db": "babel ./db --out-dir dist/db",
     "compile:utilities": "babel ./utilities --out-dir dist/utilities",
-    "compile:copy": "ncp ./node_modules/ ./dist/node_modules && ncp ./bin/ ./dist/bin",
+    "compile:copy": "ncp ./node_modules/ ./dist/node_modules && ncp ./bin/ ./dist/bin && ncp ./public/ ./dist/public && ncp ./views/ ./dist/views",
     "compile:all": "npm-run-all compile:db compile:utilities compile:controllers compile:models compile:routes compile:middleware compile:services compile:app compile:copy",
     "prebuild": "npm-run-all test clean",
     "build:release": "npm-run-all test clean compile:all",
