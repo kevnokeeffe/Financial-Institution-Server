@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./bin/www",
-    "start": "node dist/app.js",
+    "start:dist": "node ./dist/bin/www",
+    "start": "cross-env NODE_ENV=dev node dist/bin/www",
     "test": "cross-env NODE_ENV=test mocha ",
     "test:report": "nyc mocha",
     "clean": "rimraf ./dist && mkdir dist",
@@ -20,7 +21,7 @@
     "compile:all": "npm-run-all compile:db compile:models compile:routes compile:middleware compile:services compile:app compile:copy",
     "prebuild": "npm-run-all test clean",
     "build:release": "npm-run-all test clean compile:all",
-    "postbuild": "npm run start",
+    "postbuild": "npm run start:dist",
     "postinstall": "rimraf ./dist && npm run compile:all"
   },
   "dependencies": {
