@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./bin/www",
-    "start": "node dist/bin/www",
+    "start": "node dist/app.js",
     "test": "cross-env NODE_ENV=test mocha ",
     "test:report": "nyc mocha",
     "clean": "rimraf ./dist && mkdir dist",
