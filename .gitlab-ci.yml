@@ -59,7 +59,7 @@ deployment:
   image: ruby:latest
   only:
     - master
-    - develop
+    - develop-test
   stage: production
   before_script:
     - apt-get update -qy
