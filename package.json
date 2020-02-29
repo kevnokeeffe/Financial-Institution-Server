@@ -21,7 +21,7 @@
     "compile:all": "npm-run-all compile:db compile:models compile:routes compile:middleware compile:services compile:app compile:copy",
     "prebuild": "npm-run-all test clean",
     "build:release": "npm-run-all test clean compile:all",
-    "postbuild": "npm run start:dist",
+    "postbuild": "npm run start",
     "postinstall": "rimraf ./dist && npm run compile:all"
   },
   "dependencies": {
