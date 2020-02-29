@@ -39,7 +39,14 @@ app.use('/api/fi/create', fiController.createFi);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
+function ignoreFavicon(req, res, next) {
+  if (req.originalUrl === '/favicon.ico') {
+    res.status(204).json({nope: true});
+  } else {
+    next();
+  }
+}
+app.use(ignoreFavicon);
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
