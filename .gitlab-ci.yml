@@ -16,7 +16,7 @@ stages:
   - install
   - build
   - deploy
-
+  - production
 # Jobs:
 
 install_dependencies:
@@ -54,3 +54,17 @@ pages:
     paths:
       - public
     expire_in: 30 days
+
+deployment:
+  image: ruby:latest
+  only:
+    - master
+    - develop
+  stage: production
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_PROD --api-key=$HEROKU_API_KEY
+    - echo "Deployed to production server"
