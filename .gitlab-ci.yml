@@ -6,7 +6,7 @@ cache:
     - node_modules/
 
 services:
-   - mongo
+  - mongo
 
 variables:
   NODE_ENV: 'test'
@@ -20,29 +20,29 @@ stages:
 # Jobs:
 
 install_dependencies:
-    stage: install
-    script:
-      - npm install
-    artifacts:
-      paths:
-        - node_modules/
+  stage: install
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
 
 Build_and_Test:
   stage: build
   before_script:
-     - npm run clean
+    - npm run clean
   script:
     - npm run compile
     - npm test
 
 coverage:
-    stage: build
-    script:
-       - npm run test:report
-    coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
-    artifacts:
-       paths:
-          - coverage/
+  stage: build
+  script:
+    - npm run test:report
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    paths:
+      - coverage/
 
 pages:
   stage: deploy
@@ -55,16 +55,15 @@ pages:
       - public
     expire_in: 30 days
 
-deployment:
+deploy_staging:
   image: ruby:latest
   only:
-    - master
     - develop-test
-  stage: production
+  stage: deploy
   before_script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
   script:
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME_PROD --api-key=$HEROKU_API_KEY
-    - echo "Deployed to production server"
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_STAGING --api-key=$HEROKU_API_KEY
+    - echo "Deployed to staging server"
