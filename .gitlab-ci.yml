@@ -104,5 +104,5 @@ deploy_production_post_office:
     - apt-get install -y ruby-dev
     - gem install dpl
   script:
-    - dpl --provider=heroku --app=$HEROKU_POST_OFFICE_NAME --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=$HEROKU_POST_OFFICE_SERVER --api-key=$HEROKU_API_KEY
     - echo "Deployed to Credit Union Bank server"
