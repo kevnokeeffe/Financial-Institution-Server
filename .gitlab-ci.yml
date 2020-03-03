@@ -54,10 +54,9 @@ pages:
       - public
     expire_in: 30 days
 
-deploy_production:
+deploy_production_wit:
   image: ruby:latest
   only:
-    - develop-test
     - master
   stage: deploy
   before_script:
@@ -66,7 +65,44 @@ deploy_production:
     - gem install dpl
   script:
     - dpl --provider=heroku --app=$HEROKU_WIT_BANK_SERVER --api-key=$HEROKU_API_KEY
+    - echo "Deployed to WIT Bank server"
+
+deploy_production_aib:
+  image: ruby:latest
+  only:
+    - master
+  stage: deploy
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  script:
     - dpl --provider=heroku --app=$HEROKU_AIB_BANK_SERVER --api-key=$HEROKU_API_KEY
+    - echo "Deployed to AIB Bank server"
+
+deploy_production_credit_union:
+  image: ruby:latest
+  only:
+    - master
+    - develop-test
+  stage: deploy
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  script:
     - dpl --provider=heroku --app=$HEROKU_CREDIT_UNION_SERVER --api-key=$HEROKU_API_KEY
+    - echo "Deployed to Credit Union Bank server"
+
+deploy_production_post_office:
+  image: ruby:latest
+  only:
+    - master
+  stage: deploy
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  script:
     - dpl --provider=heroku --app=$HEROKU_POST_OFFICE_NAME --api-key=$HEROKU_API_KEY
-    - echo "Deployed to staging server"
+    - echo "Deployed to Credit Union Bank server"
