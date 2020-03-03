@@ -70,7 +70,7 @@ deploy_production:
     - dpl --provider=heroku --app=$HEROKU_POST_OFFICE_SERVER --api-key=$HEROKU_API_KEY
     - echo "Deployed to WIT Bank server" 
 
-deploy_production:
+deploy_production_dev:
   image: ruby:latest
   only:
     - master
