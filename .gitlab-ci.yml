@@ -16,6 +16,7 @@ stages:
   - install
   - build
   - deploy
+  - deploy-test
 
 # Jobs:
 install_dependencies:
@@ -54,7 +55,7 @@ pages:
       - public
     expire_in: 30 days
 
-deploy_production_wit:
+deploy_production:
   image: ruby:latest
   only:
     - master
@@ -66,6 +67,22 @@ deploy_production_wit:
   script:
     - dpl --provider=heroku --app=$HEROKU_WIT_BANK_SERVER --api-key=$HEROKU_API_KEY
     - dpl --provider=heroku --app=$HEROKU_AIB_BANK_SERVER --api-key=$HEROKU_API_KEY
-    - dpl --provider=heroku --app=$HEROKU_CREDIT_UNION_SERVER --api-key=$HEROKU_API_KEY
     - dpl --provider=heroku --app=$HEROKU_POST_OFFICE_SERVER --api-key=$HEROKU_API_KEY
-    - echo "Deployed to WIT Bank server"
+    - echo "Deployed to WIT Bank server" 
+
+deploy_production:
+  image: ruby:latest
+  only:
+    - master
+    - develop
+    - develop-test
+    - develop-server
+  stage: deploy-test
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  script:
+    - dpl --provider=heroku --app=$HEROKU_CREDIT_UNION_SERVER --api-key=$HEROKU_API_KEY
+    - echo "Deployed to WIT Bank server" 
+
