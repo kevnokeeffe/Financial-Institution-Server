@@ -8,73 +8,7 @@ let SavingsAccount = require ('../../models/accounts/savings-account')
 let moment = require ('moment')
 let Bank = require('../../models/financial-institution/financial-institution')
 let BankAccount = ''
-// router.createCurrentAccount = (req, res, next) => {
-//   res.setHeader('Content-Type', 'application/json')
-//   CAccount.find({_id: req.body._id })
-//     .exec()
-//     .then(account => {
-//       if (account != account) {
-//         return res.status(422).json({ message: 'Account already exists!' })
-//       } else {
-//         const account = new CAccount({
-//           userId: req.body.userId, //fk
-//           accountType: req.body.accountType,
-//           balance: req.body.balance,
-//           overDraft: req.body.overDraft,
-//           currency: req.body.currency,
-//           iban: req.body.iban
-//         })
 
-//         account
-//           .save()
-//           .then(result => {
-//             result.status(200).send({ auth: true, message: 'Account Created' })
-//           })
-//           .catch(err => {
-//             result
-//               .status(500)
-//               .json({ message: 'Error Invalid Inputs', error: err })
-//           })
-//       }
-//     })
-//     .catch(err => {
-//       res.status(500).json({ message: 'Error Invalid Inputs', error: err })
-//     })
-// }
-
-// router.createSavingsAccount = (req, res, next) => {
-//   res.setHeader('Content-Type', 'application/json')
-//   SAccount.find({ id: req.body._id })
-//     .exec()
-//     .then(account => {
-//       if (account.length >= 1) {
-//         return res.status(422).json({ message: 'Account already exists!' })
-//       } else {
-//         const account = new SAccount({
-//           userId: req.body.userId, //fk
-//           accountType: req.body.accountType,
-//           balance: req.body.balance,
-//           overDraft: req.body.overDraft,
-//           currency: req.body.currency,
-//           iban: req.body.iban
-//         })
-
-//         account
-//           .save()
-//           .then(result => {
-//             res.status(200).send({ auth: true, message: 'Account Created' })
-//           })
-//           .catch(err => {
-//             res
-//               .status(500)
-//               .json({ message: 'Error Invalid Inputs', error: err })
-//           })
-//       }
-//     })
-//     .catch(err => {
-//       res.status(500).json({ message: 'Error Invalid Inputs', error: err })
-//     })
-// }
 
 // Find all Current Accounts
 router.indexCurrentAccount = async (req, res) => {
@@ -83,7 +17,7 @@ router.indexCurrentAccount = async (req, res) => {
       return res.status(501).send({message: "No Account Available"})
     }
     return res.status(200).send({ account:account})
-  })// .populate('balance','accountType','balance','iban') => .populate doesn't work for some reason
+  })
 }
 
 // Find all Savings Accounts
@@ -93,7 +27,7 @@ router.indexSavingsAccount = (req, res) => {
       return res.status(500).json()
     }
     return res.status(200).json({ account:account})
-  })//.populate('userId','accountType','balance','iban')
+  })
 }
 
 router.createCurrentAccount = (req, res) => {

@@ -11,21 +11,16 @@ const User = new mongoose.Schema({
   },
   email: {
     type: String,
-    // required: true,
-    // unique: true,
-    // minLength: 5,
     trim: true
-    // match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-    // validate: {
-    //   validator: validator.isEmail,
-    //   message: '{VALUE} is not a valid email!'
-    // }
   },
   password: {
     type: String,
-    // required: true,
     trim: true
-  }
+  },
+  financialInstitutionID: {
+    type: String,
+    trim: true
+  } //fk
 })
 
 User.set('timestamps', true)
