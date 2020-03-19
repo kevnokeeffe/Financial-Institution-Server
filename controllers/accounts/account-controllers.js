@@ -24,7 +24,7 @@ router.indexCurrentAccount = async (req, res) => {
 router.indexSavingsAccount = (req, res) => {
   SAccount.find({}, (error, account) => {
     if (error) {
-      return res.status(500).json()
+      return res.status(500).send({message: "No Account Available"})
     }
     return res.status(200).send({ account:account})
   })
@@ -42,7 +42,7 @@ router.createCurrentAccount = (req, res) => {
   })
   User.findOne({_id: req.body._id}, (error, user) => {
     if(error && !user) {
-      return res.status(500).json();
+      return res.status(500).send({message: "No Account Available"})
     }
     const currentAccount = new CAccount({
                 fiName: req.body.fiName,
@@ -59,9 +59,9 @@ router.createCurrentAccount = (req, res) => {
 
     currentAccount.save(error => {
       if(error) {
-        return res.status(500).json()
+        return res.status(500).send({message: "No Account Available"})
       }
-      return res.status(201).json()
+      return res.status(201).send({message: true})
     })
   })
 }
@@ -71,7 +71,7 @@ router.createSavingsAccount = (req, res) => {
   // const id = 10
   User.findOne({_id: req.body._id}, (error, user) => {
     if(error && !user) {
-      return res.status(500).json();
+      return res.status(500).send({message: "No Account Available"})
     }
     const createSavings = new SAccount(req.body)
     createSavings.userId = user._id
@@ -79,9 +79,9 @@ router.createSavingsAccount = (req, res) => {
 
     createSavings.save(error => {
       if(error) {
-        return res.status(500).json()
+        return res.status(500).send({message: "No Account Available"})
       }
-      return res.status(201).json()
+      return res.status(201).send({message:true})
     })
   })
 }
@@ -91,19 +91,19 @@ router.updateCurrentAccount = (req, res) => {
   const id = 10
   User.findOne({_id:id}, (error,user) => {
     if (error) {
-      return res.status(500).json()
+      return res.status(500).send({message:false})
     }
     if (!user) {
-      return res.status(404).json()
+      return res.status(404).send({message:false})
     }
     const currentAccount = req.body.currentAccount
     currentAccount.userId = user._id
     currentAccount.dueDate = moment(currentAccount.dueDate)
     CAccount.findByIdAndUpdate({_ID: currentAccount._id}, currentAccount, error => {
     if(error){
-      return res.status(500).json()
+      return res.status(500).send({message:false})
     }
-    return res.status(204).json()
+    return res.status(204).send({message:true})
   })
   })
 }
@@ -113,19 +113,19 @@ router.updateSavingsAccount = (req, res) => {
   const id = 10
   User.findOne({_id:id}, (error,user) => {
     if (error) {
-      return res.status(500).json()
+      return res.status(500).send({message:false})
     }
     if (!user) {
-      return res.status(404).json()
+      return res.status(404).send({message:false})
     }
     const savingsAccount = req.body.savingsAccount
     savingsAccount.userId = user._id
     savingsAccount.dueDate = moment(savingsAccount.dueDate)
     SAccount.findByIdAndUpdate({_ID: savingsAccount._id}, savingsAccount, error => {
     if(error){
-      return res.status(500).json()
+      return res.status(500).send({message:false})
     }
-    return res.status(204).json()
+    return res.status(204).send({message:true})
   })
   })
 }
@@ -135,23 +135,23 @@ router.removeCurrentAccount = (req, res) => {
   const id = 5;
   CAccount.findOne({_id: req.params.id}, (error, account) => {
     if(error){
-      return res.status(500).json()
+      return res.status(500).send({message:false})
     }
     if(!account){
-      return res.status(404).json()
+      return res.status(404).send({message:false})
     }
     //TODO Could be issues with id stuff here!! 
     if (account.userId._id.toString() !== id){
-      return res.status(403).json({message: 'Not allowed to delete another user\'s account'})
+      return res.status(403).send({message:false})
     }
     CAccount.deleteOne({ _id: req.params.id}, error => {
       if(error) {
-        return res.status(500).json()
+        return res.status(500).send({message:false})
       }
-      return res.status(204).json()
+      return res.status(204).send({message:true})
     })
   })
-  return res.status(204).json()
+  return res.status(204).send({message:true})
 }
 
 // Remove savings account
@@ -159,32 +159,32 @@ router.removeSavingsAccount = (req, res) => {
   const id = 5;
   SAccount.findOne({_id: req.params.id}, (error, account) => {
     if(error){
-      return res.status(500).json()
+      return res.status(500).send({message:false})
     }
     if(!account){
-      return res.status(404).json()
+      return res.status(404).send({message:false})
     }
     if (account.userId._id.toString() !== id){
-      return res.status(403).json({message: 'Not allowed to delete another user\'s account'})
+      return res.status(403).send({message:false})
     }
     SAccount.deleteOne({ _id: req.params.id}, error => {
       if(error) {
-        return res.status(500).json()
+        return res.status(500).send({message:false})
       }
-      return res.status(204).json()
+      return res.status(204).send({message:true})
     })
   })
-  return res.status(204).json()
+  return res.status(204).send({message:true})
 }
 
 // Find one single current account by id
 router.showIndividualCurrentAccount = (req, res) => {
   CAccount.findOne({_id: req.params.id}, (error, account) => {
     if(error){
-      return res.status(500).json()
+      return res.status(500).send({message:false})
     }
     if(!account) {
-      return res.status(404).json()
+      return res.status(404).send({message:false})
     }
     return res.status(200).send({account: account})
   }) // maybe add a .populate
@@ -194,10 +194,10 @@ router.showIndividualCurrentAccount = (req, res) => {
 router.showIndividualSavingsAccount = (req, res) => {
   SAccount.findOne({_id: req.params.id}, (error, account) => {
     if(error){
-      return res.status(500).json()
+      return res.status(500).send({message:false})
     }
     if(!account) {
-      return res.status(404).json()
+      return res.status(404).send({message:false})
     }
     return res.status(200).send({account: account})
   }) // maybe add a .populate
