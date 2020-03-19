@@ -26,7 +26,7 @@ router.indexSavingsAccount = (req, res) => {
     if (error) {
       return res.status(500).json()
     }
-    return res.status(200).json({ account:account})
+    return res.status(200).send({ account:account})
   })
 }
 
@@ -186,7 +186,7 @@ router.showIndividualCurrentAccount = (req, res) => {
     if(!account) {
       return res.status(404).json()
     }
-    return res.status(200).json({account: account})
+    return res.status(200).send({account: account})
   }) // maybe add a .populate
 }
 
@@ -199,7 +199,7 @@ router.showIndividualSavingsAccount = (req, res) => {
     if(!account) {
       return res.status(404).json()
     }
-    return res.status(200).json({account: account})
+    return res.status(200).send({account: account})
   }) // maybe add a .populate
 }
 module.exports = router;

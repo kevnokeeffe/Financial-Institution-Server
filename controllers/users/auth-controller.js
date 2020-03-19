@@ -17,7 +17,7 @@ router.refreshJWTLogin = (req, res) => {
         .compare(req.body.password, user.password)
         .then(match => {
           if (!match) {
-            return res.status(401).send({ auth: false, token: null })
+            return res.status(401).send({ auth: false, message:"Invalid Login",token: null })
           }
           const token = auth.generateRefreshJWT(user)
           return res

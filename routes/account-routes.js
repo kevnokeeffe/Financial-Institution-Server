@@ -1,15 +1,15 @@
 let express = require('express');
 let router = express.Router()
 let accountController = require('../controllers/accounts/account-controllers')
-
+let authRefreshToken = require('../middleware/authenticate')
 // Create a current account
-router.post('/create-current', accountController.createCurrentAccount)
+router.post('/create-current',  accountController.createCurrentAccount)
 // Create a savings account
 router.post('/create-savings', accountController.createSavingsAccount)
 // Read all current accounts
-router.get('/find-current-all', accountController.indexCurrentAccount)
+router.get('/find-current-all', authRefreshToken.verifyRToken, authRefreshToken.verifyAToken, accountController.indexCurrentAccount)
 // Read all savings accounts
-router.get('/find-savings-all', accountController.indexSavingsAccount)
+router.get('/find-savings-all', authRefreshToken.validateRefresh,authRefreshToken.validateAccess, accountController.indexSavingsAccount)
 // Read one individual current account by id
 router.get('/find-current-individual/:id', accountController.showIndividualCurrentAccount)
 // Read one individual savings account by id
