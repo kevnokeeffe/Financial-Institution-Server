@@ -34,9 +34,7 @@ router.createCurrentAccount = (req, res) => {
     if (error) {
       return res.status(501).send({message: "No Account Available"})
     }
-    console.log(account)
     BankAccountC = account._id
-    console.log(BankAccountC)
   })
   User.findOne({_id: req.body._id}, (error, user) => {
     if(error && !user) {
