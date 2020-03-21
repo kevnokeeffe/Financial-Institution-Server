@@ -15,13 +15,13 @@ router.createFi = (req, res, next) => {
             userID: req.body.userID, //fk
             fiName: req.body.fiName,
             fiAddress: req.body.fiAddress,
-            fiAddress:[{
+            fiAddress:{
             number:req.body.fiNumber,
             ericode:req.body.fiEircode,
             street:req.body.fiStreet,
             city:req.body.fiCity,
             country:req.body.fiCountry,
-          }],
+          },
             accounts:req.body.accounts,
             fiType:req.body.fiType,
             // uploadDate:req.body.uploadDate

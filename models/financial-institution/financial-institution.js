@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 const FISchema = new mongoose.Schema({
     userID: {type: String}, //fk
     fiName: {type: String},
-    fiAddress: [{
+    fiAddress: {
         number:{type: String},
         eircode:{type: String},
         street:{type: String},
         city:{type: String},
         country:{type: String},
-    }],
+    },
     accounts:[{
         accountID: {type: String}, //fk
     }],

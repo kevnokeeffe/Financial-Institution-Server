@@ -4,6 +4,7 @@ const currentAccountSchema = new mongoose.Schema({
     fiName: {type: String},
     accountName: {type: String},
     accountId: {type: String},
+    accountNumber: {type: String},
     userId: {type: String}, //fk
     bankId: {type:String}, //fk
     accountType: {type: String},
@@ -11,7 +12,7 @@ const currentAccountSchema = new mongoose.Schema({
     overDraft: {type: Number},
     currency: {type: String},
     iban: {type: String},
-    dueDate: {type: String}
+    dueDate: {type: String},
     
 },{ collection: 'currentAccount' });
 currentAccountSchema.set('timestamps', true)
