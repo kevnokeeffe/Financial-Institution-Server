@@ -1,32 +1,30 @@
 let express = require('express')
 let router = express.Router()
 let CAccount = require('../../models/accounts/current-account')
-let SAccount = require('../../models/accounts/current-account')
+let SAccount = require('../../models/accounts/savings-account')
 let User = require('../../models/users/user-model')
-let CurrentAccount = require ('../../models/accounts/current-account')
-let SavingsAccount = require ('../../models/accounts/savings-account')
 let moment = require ('moment')
 let Bank = require('../../models/financial-institution/financial-institution')
-// let BankAccount = ''
-
+let BankAccountC = ''
+let BankAccountS = ''
 
 // Find all Current Accounts
 router.indexCurrentAccount = async (req, res) => {
-  await CAccount.find({}, (error, account) => {
+  await CAccount.find({}, (error, caccount) => {
     if (error) {
       return res.status(501).send({message: "No Account Available"})
     }
-    return res.status(200).send({ account:account})
+    return res.status(200).send({ account:caccount})
   })
 }
 
 // Find all Savings Accounts
-router.indexSavingsAccount = (req, res) => {
-  SAccount.find({}, (error, account) => {
+router.indexSavingsAccount = async (req, res) => {
+  await SAccount.find({}, (error, saccount) => {
     if (error) {
       return res.status(500).send({message: "No Account Available"})
     }
-    return res.status(200).send({ account:account})
+    return res.status(200).send({ account:saccount})
   })
 }
 
@@ -37,8 +35,8 @@ router.createCurrentAccount = (req, res) => {
       return res.status(501).send({message: "No Account Available"})
     }
     console.log(account)
-    let BankAccount = account._id
-    console.log(BankAccount)
+    BankAccountC = account._id
+    console.log(BankAccountC)
   })
   User.findOne({_id: req.body._id}, (error, user) => {
     if(error && !user) {
@@ -47,7 +45,7 @@ router.createCurrentAccount = (req, res) => {
     const currentAccount = new CAccount({
                 fiName: req.body.fiName,
                 userId: req.body.userId, //fk
-                bankId: BankAccount, //fk
+                bankId: BankAccountC, //fk
                 accountType: req.body.accountType,
                 balance: req.body.balance,
                 overDraft: req.body.overDraft,
@@ -67,13 +65,11 @@ router.createCurrentAccount = (req, res) => {
 }
 
 router.createSavingsAccount = (req, res) => {
-  Bank.findOne({bankId: req.body.bankId}, (error, account) => {
+  Bank.findOne({_id: req.body.bankId}, (error, account) => {
     if (error) {
       return res.status(501).send({message: "No Account Available"})
     }
-    console.log(account)
-    let BankAccount = account._id
-    console.log(BankAccount)
+    BankAccountS = account._id
   })
   User.findOne({_id: req.body._id}, (error, user) => {
     if(error && !user) {
@@ -82,7 +78,7 @@ router.createSavingsAccount = (req, res) => {
     const createSavings = new SAccount({
       fiName: req.body.fiName,
       userId: req.body.userId, //fk
-      bankId: BankAccount, //fk
+      bankId: this.BankAccountS, //fk
       accountType: req.body.accountType,
       balance: req.body.balance,
       accountName: req.body.accountName,

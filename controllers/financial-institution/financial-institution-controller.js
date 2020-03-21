@@ -22,7 +22,6 @@ router.createFi = (req, res, next) => {
             city:req.body.fiCity,
             country:req.body.fiCountry,
           },
-            accounts:req.body.accounts,
             fiType:req.body.fiType,
             // uploadDate:req.body.uploadDate
           })
