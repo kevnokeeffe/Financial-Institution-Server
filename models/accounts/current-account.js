@@ -12,7 +12,7 @@ const currentAccountSchema = new mongoose.Schema({
     overDraft: {type: Number},
     currency: {type: String},
     iban: {type: String},
-    dueDate: {type: String},
+    creationDate: {type: String},
     
 },{ collection: 'currentAccount' });
 currentAccountSchema.set('timestamps', true)

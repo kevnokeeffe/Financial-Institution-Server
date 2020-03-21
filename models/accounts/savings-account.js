@@ -11,7 +11,7 @@ const accountSchema = new mongoose.Schema({
     balance: {type: Number},
     currency: {type: String},
     iban: {type: String},
-    dueDate: {type: String},
+    creationDate: {type: String},
     
 },{ collection: 'savingsAccount' })
 accountSchema.set('timestamps', true)

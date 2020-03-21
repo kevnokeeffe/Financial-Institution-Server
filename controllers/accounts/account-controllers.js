@@ -7,7 +7,7 @@ let CurrentAccount = require ('../../models/accounts/current-account')
 let SavingsAccount = require ('../../models/accounts/savings-account')
 let moment = require ('moment')
 let Bank = require('../../models/financial-institution/financial-institution')
-let BankAccount = ''
+// let BankAccount = ''
 
 
 // Find all Current Accounts
@@ -37,7 +37,7 @@ router.createCurrentAccount = (req, res) => {
       return res.status(501).send({message: "No Account Available"})
     }
     console.log(account)
-    BankAccount = account._id
+    let BankAccount = account._id
     console.log(BankAccount)
   })
   User.findOne({_id: req.body._id}, (error, user) => {
@@ -55,7 +55,7 @@ router.createCurrentAccount = (req, res) => {
                 iban: req.body.iban
               })
     // currentAccount.userId = user._id
-    currentAccount.dueDate = moment(currentAccount.dueDate)
+    currentAccount.creationDate = moment(currentAccount.creationDate)
 
     currentAccount.save(error => {
       if(error) {
@@ -67,15 +67,31 @@ router.createCurrentAccount = (req, res) => {
 }
 
 router.createSavingsAccount = (req, res) => {
-  // create savings account
-  // const id = 10
+  Bank.findOne({bankId: req.body.bankId}, (error, account) => {
+    if (error) {
+      return res.status(501).send({message: "No Account Available"})
+    }
+    console.log(account)
+    let BankAccount = account._id
+    console.log(BankAccount)
+  })
   User.findOne({_id: req.body._id}, (error, user) => {
     if(error && !user) {
       return res.status(500).send({message: "No Account Available"})
     }
-    const createSavings = new SAccount(req.body)
-    createSavings.userId = user._id
-    createSavings.dueDate = moment(createSavings.dueDate)
+    const createSavings = new SAccount({
+      fiName: req.body.fiName,
+      userId: req.body.userId, //fk
+      bankId: BankAccount, //fk
+      accountType: req.body.accountType,
+      balance: req.body.balance,
+      accountName: req.body.accountName,
+      accountNumber: req.body.accountNumber,
+      
+      currency: req.body.currency,
+      iban: req.body.iban
+    })
+    createSavings.creationDate = moment(createSavings.creationDate)
 
     createSavings.save(error => {
       if(error) {
