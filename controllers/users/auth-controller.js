@@ -10,6 +10,7 @@ router.refreshJWTLogin = (req, res) => {
   const { email } = req.body
   User.findOne({ email })
     .then(user => {
+      console.log(user)
       if (!user) {
         return res.status(404).send(err, { message: 'User not found' })
       }

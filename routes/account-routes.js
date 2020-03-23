@@ -1,26 +1,26 @@
 let express = require('express');
 let router = express.Router()
 let accountController = require('../controllers/accounts/account-controllers')
-let authRefreshToken = require('../middleware/authenticate')
+let auth = require('../middleware/authenticate')
 // Create a current account
 router.post('/create-current',  accountController.createCurrentAccount)
 // Create a savings account
 router.post('/create-savings', accountController.createSavingsAccount)
 // Read all current accounts
-router.get('/find-current-all', accountController.indexCurrentAccount)
+router.post('/find-current-all', auth.verifyRToken, accountController.indexCurrentAccount)
 // Read all savings accounts
-router.get('/find-savings-all', accountController.indexSavingsAccount)
+router.get('/find-savings-all', auth.verifyRToken, accountController.indexSavingsAccount)
 // Read one individual current account by id
-router.get('/find-current-individual/:id', accountController.showIndividualCurrentAccount)
+router.get('/find-current-individual/:id', auth.verifyRToken, accountController.showIndividualCurrentAccount)
 // Read one individual savings account by id
-router.get('/find-savings-individual/:id', accountController.showIndividualSavingsAccount)
+router.get('/find-savings-individual/:id', auth.verifyRToken, accountController.showIndividualSavingsAccount)
 // Update a spacific current account by id
-router.put('/update-current-account/:id', accountController.updateCurrentAccount)
+router.put('/update-current-account/:id', auth.verifyRToken, accountController.updateCurrentAccount)
 // Update a specific savings account by id
-router.put('/update-savings-account/:id', accountController.updateSavingsAccount)
+router.put('/update-savings-account/:id', auth.verifyRToken, accountController.updateSavingsAccount)
 // Delete specific current account by id
-router.delete('/delete-current-account/:id', accountController.removeCurrentAccount)
+router.delete('/delete-current-account/:id', auth.verifyRToken, accountController.removeCurrentAccount)
 // Delete specific savings account by id
-router.delete('/delete-savings-account/:id', accountController.removeSavingsAccount)
+router.delete('/delete-savings-account/:id', auth.verifyRToken, accountController.removeSavingsAccount)
 
 module.exports = router;

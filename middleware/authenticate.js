@@ -29,7 +29,7 @@ router.validateAccess = (req, res, next) => {
 router.validateRefresh = (req, res, next) => {
   let token = req.header('Authorization')
   try {
-    let payload = jwt.verify(token, process.env.SECRET_KEY_ACCESS)
+    let payload = jwt.verify(token, process.env.SECRET_KEY_REFRESH)
     User.findById(payload._id)
       .then(user => {
         if (!user) {
@@ -40,22 +40,22 @@ router.validateRefresh = (req, res, next) => {
       })
       .catch(err => {
         if (err) {
-          return res.status(401).send(err)
+          return res.status(402).send(err)
         }
-        return res.status(401).send(err)
+        return res.status(403).send(err)
       })
   } catch (err) {
-    return res.status(401).send(err)
+    return res.status(404).send(err)
   }
 }
 
 //Token verification
 router.verifyRToken = ((req, res, next) => {
-	const token = req.headers.authorization || req.headers['authenticate'];
+	const token = req.headers.authorization || req.headers['Authorization'];
 	if (!token)
 		return res.status(403).send({ auth: false, message: 'No token provided.' });
 
-	jwt.verify(token, process.env.SECRET_KEY, function(err, decoded) {
+	jwt.verify(token, process.env.SECRET_KEY_REFRESH, function(err, decoded) {
 		if (err)
 			return res.status(501).send({ auth: false, message: 'Failed to authenticate token.' });
 
@@ -66,11 +66,11 @@ router.verifyRToken = ((req, res, next) => {
 });
 
 router.verifyAToken = ((req, res, next) => {
-	const token = req.headers.authorization || req.headers['authenticate'];
+	const token = req.headers.authenticate || req.headers['authenticate'];
 	if (!token)
 		return res.status(403).send({ auth: false, message: 'No token provided.' });
 
-	jwt.verify(token, process.env.SECRET_KEY, function(err, decoded) {
+	jwt.verify(token, process.env.SECRET_KEY_ACCESS, function(err, decoded) {
 		if (err)
 			return res.status(501).send({ auth: false, message: 'Failed to authenticate token.' });
 

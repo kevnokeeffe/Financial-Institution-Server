@@ -5,12 +5,6 @@ let FImodel = require('../../models/financial-institution/financial-institution'
 
 router.createFi = (req, res, next) => {
     res.setHeader('Content-Type', 'application/json')
-    // fi.find({ id: req.body._id })
-    //   .exec()
-      // .then(fi => {
-      //   if (fi.length >= 1) {
-      //     return res.status(422).json({ message: 'FI already exists!' })
-      //   } else {
           const fi = new FImodel({
             userID: req.body.userID, //fk
             fiName: req.body.fiName,
@@ -23,7 +17,6 @@ router.createFi = (req, res, next) => {
             country:req.body.fiCountry,
           },
             fiType:req.body.fiType,
-            // uploadDate:req.body.uploadDate
           })
   
           fi
@@ -37,11 +30,6 @@ router.createFi = (req, res, next) => {
                 .json({ message: 'Error Invalid Inputs', error: err })
             })
         }
-      // })
-      // .catch(err => {
-      //   res.status(500).json({ message: 'Error Invalid Inputs', error: err })
-      // })
-  //}
 
 // Find all FI - should just be the One
 router.getDetails = (req, res) => {
