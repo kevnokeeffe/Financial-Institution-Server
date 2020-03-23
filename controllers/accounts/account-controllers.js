@@ -14,7 +14,7 @@ router.indexCurrentAccount = async (req, res) => {
     if (error) {
       return res.status(501).send({message: "No Account Available"})
     }
-    return res.status(200).send({ account:caccount})
+    return res.status(200).send({ account:caccount[0]})
   })
 }
 
@@ -24,7 +24,7 @@ router.indexSavingsAccount = async (req, res) => {
     if (error) {
       return res.status(500).send({message: "No Account Available"})
     }
-    return res.status(200).send({ account:saccount})
+    return res.status(200).send({ account:saccount[0]})
   })
 }
 

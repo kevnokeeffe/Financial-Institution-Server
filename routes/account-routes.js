@@ -7,7 +7,7 @@ router.post('/create-current',  accountController.createCurrentAccount)
 // Create a savings account
 router.post('/create-savings', accountController.createSavingsAccount)
 // Read all current accounts
-router.post('/find-current-all', auth.verifyRToken, accountController.indexCurrentAccount)
+router.get('/find-current-all', auth.verifyRToken, accountController.indexCurrentAccount)
 // Read all savings accounts
 router.get('/find-savings-all', auth.verifyRToken, accountController.indexSavingsAccount)
 // Read one individual current account by id
