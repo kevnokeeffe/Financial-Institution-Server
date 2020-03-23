@@ -44,13 +44,17 @@ router.createFi = (req, res, next) => {
   //}
 
 // Find all FI - should just be the One
-router.indexFI = (req, res) => {
+router.getDetails = (req, res) => {
   FImodel.find({}, (error, account) => {
     if (error) {
       return res.status(500).json()
     }
-    return res.status(200).json({ account:account})
-  }).populate('userID','fiName','fiAddress','accounts','fiType')
+    const fiAccount={
+      id:account[0]._id,
+      fiName:account[0].fiName
+    }
+    return res.status(200).send({fiAccount})
+  })//.populate('fiName','_id')
 }
 
 // Find one single current account by id
@@ -63,7 +67,7 @@ router.showFI = (req, res) => {
       return res.status(404).json()
     }
     return res.status(200).json({account: account})
-  }) // maybe add a .populate
+  })
 }
 
 module.exports = router;

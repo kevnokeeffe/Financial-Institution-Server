@@ -33,7 +33,7 @@ app.use('/api/test', testRouter);
 app.use('/api/account', accountRouter);
 app.use('/api/user', userRouter);
 app.use('/api/fi/create', fiController.createFi);
-
+app.use('/api/fi/get-details', fiController.getDetails);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
