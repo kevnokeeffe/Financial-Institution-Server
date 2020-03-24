@@ -12,7 +12,7 @@ let BankAccountS = ''
 router.indexCurrentAccount = async (req, res) => {
   await CAccount.find({}, (error, caccount) => {
     if (error) {
-      return res.status(501).send({message: "No Account Available"})
+      return res.send({message: false})
     }
     return res.status(200).send({ account:caccount[0]})
   })
@@ -22,7 +22,7 @@ router.indexCurrentAccount = async (req, res) => {
 router.indexSavingsAccount = async (req, res) => {
   await SAccount.find({}, (error, saccount) => {
     if (error) {
-      return res.status(500).send({message: "No Account Available"})
+      return res.send({message: false})
     }
     return res.status(200).send({ account:saccount[0]})
   })
