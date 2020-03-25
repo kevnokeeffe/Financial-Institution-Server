@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 let express = require('express')
 let router = express.Router()
-let FI = require ('../models/financial-institution/financial-institution')
+require('dotenv').config()
 
 router.generateAccessJWT = user => {
   const tokenData = {
@@ -12,12 +12,14 @@ router.generateAccessJWT = user => {
     financialInstitutionID: user.financialInstitutionID,
     IBAN: user.iban,
   }
-  return (token = jwt.sign(tokenData, process.env.SECRET_KEY_ACCESS, {
+  const token = jwt.sign(tokenData, process.env.SECRET_KEY_ACCESS, {
     expiresIn: 300000
-  }))
+  })
+  return token
 }
 
 router.generateRefreshJWT = user => {
+  console.log("here"+user)
   const tokenData = {
     fName: user.fName,
     lName: user.lName,
@@ -26,9 +28,10 @@ router.generateRefreshJWT = user => {
     financialInstitutionID: user.financialInstitutionID,
     IBAN: user.iban,
   }
-  return (token = jwt.sign(tokenData, process.env.SECRET_KEY_REFRESH, {
+  const token = jwt.sign(tokenData, process.env.SECRET_KEY_REFRESH, {
     expiresIn: 7776000000
-  }))
+  })
+  return token
 }
 
 module.exports = router

@@ -6,20 +6,15 @@ const bcrypt = require('bcryptjs')
 
 router.refreshJWTLogin = (req, res) => {
   res.setHeader('Content-Type', 'application/json')
-  //const password 
   const { email } = req.body
-  console.log(req.body.email)
-  console.log(req.body.password)
   User.findOne({ email })
     .then(user => {
-      console.log(user)
       if (!user) {
         return res.status(404).send(err, { message: 'User not found' })
       }
       bcrypt
         .compare(req.body.password, user.password)
         .then(match => {
-          console.log(match)
           if (!match) {
             return res.status(401).send({ auth: false, message:"Invalid Login",token: null })
           }
@@ -30,6 +25,9 @@ router.refreshJWTLogin = (req, res) => {
         })
         .catch(err => {
           // where the error is!! Write down why next time!!!
+          // Has something to do with running from the dist folder!
+          // Sone sort of issue with the token assigning the data to it while returning it.
+          // Solved by creating the token as a const signing it with all the data. then returning the token on it own aftr the signing.
           return res.status(409).send({ error: err })
         })
     })
