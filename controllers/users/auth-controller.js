@@ -1,21 +1,25 @@
 let express = require('express')
 let router = express.Router()
-let StringUtil = require('../../utilities/string-util').StringUtil
 let User = require ('../../models/users/user-model')
 let auth = require ('../../services/auth-service')
 const bcrypt = require('bcryptjs')
 
 router.refreshJWTLogin = (req, res) => {
   res.setHeader('Content-Type', 'application/json')
+  //const password 
   const { email } = req.body
+  console.log(req.body.email)
+  console.log(req.body.password)
   User.findOne({ email })
     .then(user => {
+      console.log(user)
       if (!user) {
         return res.status(404).send(err, { message: 'User not found' })
       }
       bcrypt
         .compare(req.body.password, user.password)
         .then(match => {
+          console.log(match)
           if (!match) {
             return res.status(401).send({ auth: false, message:"Invalid Login",token: null })
           }
