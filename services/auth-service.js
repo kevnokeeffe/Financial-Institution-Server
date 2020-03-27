@@ -12,6 +12,8 @@ router.generateAccessJWT = user => {
     financialInstitutionID: user.financialInstitutionID,
     IBAN: user.iban,
   }
+
+     
   const token = jwt.sign(tokenData, process.env.SECRET_KEY_ACCESS, {
     expiresIn: 300000
   })
@@ -28,9 +30,12 @@ router.generateRefreshJWT = user => {
     financialInstitutionID: user.financialInstitutionID,
     IBAN: user.iban,
   }
-  const token = jwt.sign(tokenData, process.env.SECRET_KEY_REFRESH, {
-    expiresIn: 7776000000
-  })
+
+  let verifyOptions = {
+		expiresIn:  7776000000
+     }; 
+
+  const token = jwt.sign(tokenData, process.env.SECRET_KEY_REFRESH, verifyOptions)
   return token
 }
 
