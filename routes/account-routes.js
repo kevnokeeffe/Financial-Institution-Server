@@ -12,10 +12,14 @@ router.get('/find-current-all', auth.verifyRToken, accountController.indexCurren
 router.get('/find-savings-all', auth.verifyRToken, accountController.indexSavingsAccount)
 // Read one individual current account by id
 router.get('/find-current-individual/:id', auth.verifyRToken, accountController.showIndividualCurrentAccount)
+// Read one individual current account by IBAN
+router.get('/find-current-individual/iban/:iban', accountController.showIndividualCurrentAccountIBAN)
 // Read one individual savings account by id
 router.get('/find-savings-individual/:id', auth.verifyRToken, accountController.showIndividualSavingsAccount)
 // Update a spacific current account by id
 router.put('/update-current-account/:id', auth.verifyRToken, accountController.updateCurrentAccount)
+// Update a spacific current account by IBAN
+router.put('/update-current-account/iban/:iban', accountController.updateCurrentAccountIBAN)
 // Update a specific savings account by id
 router.put('/update-savings-account/:id', auth.verifyRToken, accountController.updateSavingsAccount)
 // Delete specific current account by id

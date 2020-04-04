@@ -9,8 +9,7 @@ router.generateAccessJWT = user => {
     lName: user.lName,
     id: user._id,
     email: user.email,
-    financialInstitutionID: user.financialInstitutionID,
-    IBAN: user.iban,
+    financialInstitutionID: user.financialInstitutionID
   }
 
      
@@ -27,8 +26,7 @@ router.generateRefreshJWT = user => {
     lName: user.lName,
     id: user._id,
     email: user.email,
-    financialInstitutionID: user.financialInstitutionID,
-    IBAN: user.iban,
+    financialInstitutionID: user.financialInstitutionID
   }
 
   let verifyOptions = {

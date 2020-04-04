@@ -7,6 +7,7 @@ let moment = require ('moment')
 let Bank = require('../../models/financial-institution/financial-institution')
 let BankAccountC = ''
 let BankAccountS = ''
+const axios = require('axios')
 
 // Find all Current Accounts
 router.indexCurrentAccount = async (req, res) => {
@@ -118,9 +119,49 @@ router.updateCurrentAccount = (req, res) => {
   })
 }
 
+// Update Current Account with IBAN
+router.updateCurrentAccountIBAN = (req, res) => {
+  CAccount.findOne({iban: req.body.transaction[0]}, (error, account) => {
+    if(error){
+      return res.send({message:false})
+    }
+    if(!account) {
+      return res.send({message:false})
+    }
+    let newBalance = account.balance + req.body.transaction[2]
+    const updateBalance = account;
+    updateBalance.balance = newBalance;
+    CAccount.findByIdAndUpdate({_ID: account._id}, updateBalance, error => {
+    if(error){
+      return res.status(500).send({message:false})
+    }
+    //return res.status(204).send({message:true})
+    }).then(()=>{
+      SAccount.findOne({_id: req.body.transaction[1]}, (error, account) => {
+        if(account) {
+          let newBalance = account.balance - req.body.transaction[2]
+          const updateBalance = account;
+          updateBalance.balance = newBalance;
+          SAccount.findByIdAndUpdate({_ID: account._id}, updateBalance, error => {
+            if(error){
+              return res.status(500).send({message:false})
+            }
+            return res.status(204).send({message:true})
+        })
+      }
+      if(error){
+        let accountId = req.body.transaction[0]
+        axios.all([one,two,three])
+        // OK put the bank calls here and see if there is any takers then report back to client either way.
+      }
+    })
+})
+})
+}
+
 // Update Savings Account
 router.updateSavingsAccount = (req, res) => {
-  const id = 10
+  //const id = req.body.iban
   User.findOne({_id:id}, (error,user) => {
     if (error) {
       return res.status(500).send({message:false})
@@ -198,6 +239,20 @@ router.showIndividualCurrentAccount = (req, res) => {
     }
     return res.status(200).send({account: account})
   }) // maybe add a .populate
+}
+
+router.showIndividualCurrentAccountIBAN = (req, res) => {
+  CAccount.findOne({iban: req.params.iban}, (error, account) => {
+    if(error){
+      return res.send({message:false})
+    }
+    if(!account) {
+      return res.send({message:false})
+    }
+    return res.status(200).send({message: true})
+  }).catch(error => {
+    return res.send({ message: false });
+  }); 
 }
 
 // Find one single savings account by id
