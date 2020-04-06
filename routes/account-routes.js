@@ -18,8 +18,10 @@ router.get('/find-current-individual/iban/:iban', accountController.showIndividu
 router.get('/find-savings-individual/:id', auth.verifyRToken, accountController.showIndividualSavingsAccount)
 // Update a spacific current account by id
 router.put('/update-current-account/:id', auth.verifyRToken, accountController.updateCurrentAccount)
-// Update a spacific current account by IBAN
+// Update a spacific current account by IBAN + funds
 router.put('/update-current-account/iban/:iban', accountController.updateCurrentAccountIBAN)
+// Update a current account by id - funds
+router.put('/update-current-account/minus/:id', accountController.updateCurrentAccountMinus)
 // Update a specific savings account by id
 router.put('/update-savings-account/:id', auth.verifyRToken, accountController.updateSavingsAccount)
 // Delete specific current account by id
