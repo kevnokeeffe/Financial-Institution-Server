@@ -131,7 +131,7 @@ router.updateSavingsAccountIBAN = (req, res) => {
         return res.send({ message: false })
       }
       if (account) {
-        //console.log(account)
+        console.log("Savings"+account)
         let newBalance = account.balance + req.body.transaction[2]
         const updateBalance = account
         updateBalance.balance = newBalance
@@ -152,29 +152,22 @@ router.updateSavingsAccountIBAN = (req, res) => {
       }
       if(validate === false){
         let id = req.body.transaction[1]
-        const one = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
-        const two = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
-        const three = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-current-account/minus/'+id,req)
-        const four = axios.put(process.env.AN_POST_SERVER+'/api/account/update-current-account/minus/'+id,req)
-        const five = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-        const six = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-        const seven = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-        const eight = axios.put(process.env.AN_POST_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-
-        axios.all([one,two,three,four,five,six,seven,eight])
-        .then(axios.spread((one,two,three,four,five,six,seven,eight)=>{
-            console.log("one: "+one)
-            console.log("two: "+two)
-            console.log("three: "+three)
-            console.log("four: "+four)
-            console.log("five: "+five)
-            console.log("six: "+six)
-            console.log("seven: "+seven)
-            console.log("eight: "+eight)
+        axios.all([one(id,req),two(id,req),three(id,req),four(id,req),five(id,req),six(id,req),seven(id,req),eight(id,req)])
+        .then(axios.spread(function(one,two,three,four,five,six,seven,eight){
+            console.log("one: "+one.data)
+            console.log("two: "+two.data)
+            console.log("three: "+three.data)
+            console.log("four: "+four.data)
+            console.log("five: "+five.data)
+            console.log("six: "+six.data)
+            console.log("seven: "+seven.data)
+            console.log("eight: "+eight.data)
 
             return res.status(204).send({ message: true })
-        }))
+        })).catch(()=>{return res.status(204).send({ message: false })})
+        
       }
+      else {return res.send({message:false})}
       }
     })
   } catch {
@@ -184,12 +177,12 @@ router.updateSavingsAccountIBAN = (req, res) => {
 
 // Update Current Account with IBAN
 router.updateCurrentAccountIBAN = async (req, res) => {
-    CAccount.findOne({ iban: req.body.transaction[0] }, (error, account) => {
+    await CAccount.findOne({ iban: req.body.transaction[0] }, (error, account) => {
       if (error) {
         return res.send({ message: false })
       }
       if (account) {
-        console.log(account)
+        console.log("current"+account)
         let newBalance = account.balance + req.body.transaction[2]
         const updateBalance = account
         updateBalance.balance = newBalance
@@ -204,33 +197,24 @@ router.updateCurrentAccountIBAN = async (req, res) => {
               return res.send({ message: false })
             }
             //return res.status(204).send({ message: true })
+            // console.log("here now 1")
+            // return
           }
         )
         }catch{}
       }
       if(validate === false){
-        console.log("here error")
+        console.log("here now 2")
         let id = req.body.transaction[1]
-       console.log(id)
-        axios.put(process.env.BANK_SERVER+'/api/account/update-current-account/minus/'+id,req).then(reply => {console.log(reply)}).catch(function (error) {
-          console.log(error);
-        });
 
-        // axios.all([one(id,req),two(id,req),three(id,req),four(id,req),five(id,req),six(id,req),seven(id,req),eight(id,req)])
-        // .then(axios.spread(function(one,two,three,four,five,six,seven,eight){
-        //     console.log("one: "+one)
-        //     console.log("two: "+two)
-        //     console.log("three: "+three)
-        //     console.log("four: "+four)
-        //     console.log("five: "+five)
-        //     console.log("six: "+six)
-        //     console.log("seven: "+seven)
-        //     console.log("eight: "+eight)
-
-        //     //return res.status(204).send({ message: true })
-        // })).catch(()=>{return res.status(204).send({ message: false })})
+       
+      axios.put(process.env.BANK_SERVER+'/api/account/update-current-account/minus/'+id,req).then(reply => {console.log("Inside: "+reply.data.message) 
+         
+             return res.status(204).send({ message: true })
+        }).catch(()=>{return res.status(204).send({ message: false })})
+        
       }
-      else {return res.send({message:false})}
+      //return res.send({message:false})
       }
     })
 }
@@ -294,7 +278,7 @@ router.updateCurrentAccountMinus = (req,res) => {
             return res.status(204).send({ message: true })
           }
         )
-        }catch{}
+        }catch{return res.send({ message: false })}
       }
       }
     })
@@ -328,12 +312,12 @@ router.updateSavingsAccountMinus = (req,res) => {
             return res.status(204).send({ message: true })
           }
         )
-        }catch{}
+        }catch{return res.send({ message: false })}
       }
       }
     })
   } catch {
-    console.log('Not internal')
+    return res.send({ message: false })
   }
 }
 
@@ -414,10 +398,10 @@ router.removeSavingsAccount = (req, res) => {
 router.showIndividualCurrentAccount = (req, res) => {
   CAccount.findOne({ _id: req.params.id }, (error, account) => {
     if (error) {
-      return res.status(500).send({ message: false })
+      return res.send({ message: false })
     }
     if (!account) {
-      return res.status(404).send({ message: false })
+      return res.send({ message: false })
     }
     return res.status(200).send({ account: account })
   }) // maybe add a .populate
@@ -459,10 +443,10 @@ router.showIndividualSavingsAccountIBAN = (req, res) => {
 router.showIndividualSavingsAccount = (req, res) => {
   SAccount.findOne({ _id: req.params.id }, (error, account) => {
     if (error) {
-      return res.status(500).send({ message: false })
+      return res.send({ message: false })
     }
     if (!account) {
-      return res.status(404).send({ message: false })
+      return res.send({ message: false })
     }
     return res.status(200).send({ account: account })
   }) // maybe add a .populate
