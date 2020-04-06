@@ -99,27 +99,16 @@ router.createSavingsAccount = (req, res) => {
 
 // Update Current Account
 router.updateCurrentAccount = (req, res) => {
-  const id = 10
-  User.findOne({ _id: id }, (error, user) => {
+  const id = req.body.transaction[1]
+
+  const currentAccount = req.body.currentAccount
+  currentAccount.userId = user._id
+  currentAccount.dueDate = moment(currentAccount.dueDate)
+  CAccount.findByIdAndUpdate({ _ID: id }, currentAccount, (error) => {
     if (error) {
       return res.status(500).send({ message: false })
     }
-    if (!user) {
-      return res.status(404).send({ message: false })
-    }
-    const currentAccount = req.body.currentAccount
-    currentAccount.userId = user._id
-    currentAccount.dueDate = moment(currentAccount.dueDate)
-    CAccount.findByIdAndUpdate(
-      { _ID: currentAccount._id },
-      currentAccount,
-      (error) => {
-        if (error) {
-          return res.status(500).send({ message: false })
-        }
-        return res.status(204).send({ message: true })
-      }
-    )
+    return res.status(204).send({ message: true })
   })
 }
 
@@ -131,43 +120,67 @@ router.updateSavingsAccountIBAN = (req, res) => {
         return res.send({ message: false })
       }
       if (account) {
-        console.log("Savings"+account)
+        console.log('Savings' + account)
         let newBalance = account.balance + req.body.transaction[2]
         const updateBalance = account
         updateBalance.balance = newBalance
         const validate = false
-        if (validate === false){
-        try{
-        SAccount.findByIdAndUpdate(
-          { _id: account.id },
-          updateBalance,
-          (error) => {
-            if (error) {
-              return res.send({ message: false })
-            }
-            //return res.status(204).send({ message: true })
-          }
-        )
-        }catch{}
-      }
-      if(validate === false){
-        let id = req.body.transaction[1]
-        axios.all([one(id,req),two(id,req),three(id,req),four(id,req),five(id,req),six(id,req),seven(id,req),eight(id,req)])
-        .then(axios.spread(function(one,two,three,four,five,six,seven,eight){
-            console.log("one: "+one.data)
-            console.log("two: "+two.data)
-            console.log("three: "+three.data)
-            console.log("four: "+four.data)
-            console.log("five: "+five.data)
-            console.log("six: "+six.data)
-            console.log("seven: "+seven.data)
-            console.log("eight: "+eight.data)
+        if (validate === false) {
+          try {
+            SAccount.findByIdAndUpdate(
+              { _id: account.id },
+              updateBalance,
+              (error) => {
+                if (error) {
+                  return res.send({ message: false })
+                }
+                //return res.status(204).send({ message: true })
+              }
+            )
+          } catch {}
+        }
+        if (validate === false) {
+          let id = req.body.transaction[1]
+          axios
+            .all([
+              one(id, req),
+              two(id, req),
+              three(id, req),
+              four(id, req),
+              five(id, req),
+              six(id, req),
+              seven(id, req),
+              eight(id, req),
+            ])
+            .then(
+              axios.spread(function (
+                one,
+                two,
+                three,
+                four,
+                five,
+                six,
+                seven,
+                eight
+              ) {
+                console.log('one: ' + one.data)
+                console.log('two: ' + two.data)
+                console.log('three: ' + three.data)
+                console.log('four: ' + four.data)
+                console.log('five: ' + five.data)
+                console.log('six: ' + six.data)
+                console.log('seven: ' + seven.data)
+                console.log('eight: ' + eight.data)
 
-            return res.status(204).send({ message: true })
-        })).catch(()=>{return res.status(204).send({ message: false })})
-        
-      }
-      else {return res.send({message:false})}
+                return res.status(204).send({ message: true })
+              })
+            )
+            .catch(() => {
+              return res.status(204).send({ message: false })
+            })
+        } else {
+          return res.send({ message: false })
+        }
       }
     })
   } catch {
@@ -176,110 +189,236 @@ router.updateSavingsAccountIBAN = (req, res) => {
 }
 
 // Update Current Account with IBAN
-router.updateCurrentAccountIBAN = async (req, res) => {
-    await CAccount.findOne({ iban: req.body.transaction[0] }, (error, account) => {
-      if (error) {
-        return res.send({ message: false })
-      }
-      if (account) {
-        console.log("current"+account)
-        let newBalance = account.balance + req.body.transaction[2]
-        const updateBalance = account
-        updateBalance.balance = newBalance
-        const validate = false
-        if (validate === false){
-        try{
-        CAccount.findByIdAndUpdate(
-          { _id: account.id },
-          updateBalance,
-          (error) => {
-            if (error) {
-              return res.send({ message: false })
+router.updateCurrentAccountID = async (req, res) => {
+  let id = req.body.transaction[1]
+  let iban = req.body.transaction[0]
+  await CAccount.findOne({ _id: id }, (error, account) => {
+    if (error) {
+      return res.send({ message: false })
+    }
+    if (account) {
+      console.log('current' + account)
+      let newBalance = account.balance - req.body.transaction[2]
+      const updateBalance = account
+      updateBalance.balance = newBalance
+      const validate = false
+      if (validate === false) {
+        try {
+          CAccount.findByIdAndUpdate(
+            { _id: account.id },
+            updateBalance,
+            (error) => {
+              if (error) {
+                return res.send({ message: false })
+              }
             }
-            //return res.status(204).send({ message: true })
-            // console.log("here now 1")
-            // return
-          }
+          )
+        } catch {
+          return res.send({ message: false })
+        }
+      }
+
+      axios
+        .put(
+          process.env.WIT_BANK_SERVER +
+            '/api/account/update-current-account/minus/' +
+            iban,
+          req
         )
-        }catch{}
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+      axios
+        .put(
+          process.env.AIB_BANK_SERVER +
+            '/api/account/update-current-account/minus/' +
+            iban,
+          req
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+      axios
+        .put(
+          process.env.CREDIT_UNION_SERVER +
+            '/api/account/update-current-account/minus/' +
+            iban,
+          req
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+      axios
+        .put(
+          process.env.AN_POST_SERVER +
+            '/api/account/update-current-account/minus/' +
+            iban,
+          req
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+    }
+  }).catch((error) => {
+    return res.send({ message: false });
+  })
+}
+
+
+// UPDATE SAVINGS ACCOUNT ID
+router.updateSavingsAccountID = async (req, res) => {
+  let id = req.body.transaction[1]
+  let iban = req.body.transaction[0]
+  await SAccount.findOne({ _id: id }, (error, account) => {
+    if (error) {
+      return res.send({ message: false })
+    }
+    if (account) {
+      console.log('Savings' + account)
+      let newBalance = account.balance - req.body.transaction[2]
+      const updateBalance = account
+      updateBalance.balance = newBalance
+      const validate = false
+      if (validate === false) {
+        try {
+          SAccount.findByIdAndUpdate(
+            { _id: account.id },
+            updateBalance,
+            (error) => {
+              if (error) {
+                return res.send({ message: false })
+              }
+            }
+          )
+        } catch {
+          return res.send({ message: false })
+        }
       }
-      if(validate === false){
-        console.log("here now 2")
-        let id = req.body.transaction[1]
 
-       
-      axios.put(process.env.BANK_SERVER+'/api/account/update-current-account/minus/'+id,req).then(reply => {console.log("Inside: "+reply.data.message) 
-         
-             return res.status(204).send({ message: true })
-        }).catch(()=>{return res.status(204).send({ message: false })})
-        
-      }
-      //return res.send({message:false})
-      }
-    })
+      axios
+        .put(
+          process.env.WIT_BANK_SERVER +
+            '/api/account/update-current-account/minus/' +
+            iban,
+          req
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+      axios
+        .put(
+          process.env.AIB_BANK_SERVER +
+            '/api/account/update-current-account/minus/' +
+            iban,
+          req
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+      axios
+        .put(
+          process.env.CREDIT_UNION_SERVER +
+            '/api/account/update-current-account/minus/' +
+            iban,
+          req
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+      axios
+        .put(
+          process.env.AN_POST_SERVER +
+            '/api/account/update-current-account/minus/' +
+            iban,
+          req
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+    }
+  }).catch((error) => {
+    return res.send({ message: false });
+  })
 }
 
-function one(id,req) {
-  const one = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
-  return one
-}
-function two(id,req) {
-  const two = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
-  return two
-}
-function three(id,req) {
-  const three = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-current-account/minus/'+id,req)
-  return three
-}
-function four(id,req) {
-  const four = axios.put(process.env.AN_POST_SERVER+'/api/account/update-current-account/minus/'+id,req)
-  return four
-}
-function five(id,req) {
-  const five = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-  return five
-}
-function six(id,req) {
-  const six = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-  return six
-}
-function seven(id,req) {
-  const seven = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-  return seven
-}
-function eight(id,req) {
-  const eight = axios.put(process.env.AN_POST_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-  return eight
-}
 
-
-router.updateCurrentAccountMinus = (req,res) => {
+router.updateCurrentAccountMinus = (req, res) => {
   console.log(req.body.transaction)
   try {
-    CAccount.findOne({ _id: req.body.transaction[1] }, (error, account) => {
+    CAccount.findOne({ _id: req.body.transaction[0] }, (error, account) => {
       if (error) {
         return res.send({ message: false })
       }
       if (account) {
         console.log(account)
-        let newBalance = account.balance - req.body.transaction[2]
+        let newBalance = account.balance + req.body.transaction[2]
         const updateBalance = account
         updateBalance.balance = newBalance
         const validate = false
-        if (validate === false){
-        try{
-        CAccount.findByIdAndUpdate(
-          { _id: account.id },
-          updateBalance,
-          (error) => {
-            if (error) {
-              return res.send({ message: false })
-            }
-            return res.status(204).send({ message: true })
+        if (validate === false) {
+          try {
+            CAccount.findByIdAndUpdate(
+              { _id: account.id },
+              updateBalance,
+              (error) => {
+                if (error) {
+                  return res.send({ message: false })
+                }
+                return res.status(204).send({ message: true })
+              }
+            )
+          } catch {
+            return res.send({ message: false })
           }
-        )
-        }catch{return res.send({ message: false })}
-      }
+        }
       }
     })
   } catch {
@@ -287,33 +426,35 @@ router.updateCurrentAccountMinus = (req,res) => {
   }
 }
 
-router.updateSavingsAccountMinus = (req,res) => {
+router.updateSavingsAccountMinus = (req, res) => {
   console.log(req.body.transaction)
   try {
-    SAccount.findOne({ _id: req.body.transaction[1] }, (error, account) => {
+    SAccount.findOne({ _id: req.body.transaction[0] }, (error, account) => {
       if (error) {
         return res.send({ message: false })
       }
       if (account) {
         console.log(account)
-        let newBalance = account.balance - req.body.transaction[2]
+        let newBalance = account.balance + req.body.transaction[2]
         const updateBalance = account
         updateBalance.balance = newBalance
         const validate = false
-        if (validate === false){
-        try{
-        SAccount.findByIdAndUpdate(
-          { _id: account.id },
-          updateBalance,
-          (error) => {
-            if (error) {
-              return res.send({ message: false })
-            }
-            return res.status(204).send({ message: true })
+        if (validate === false) {
+          try {
+            SAccount.findByIdAndUpdate(
+              { _id: account.id },
+              updateBalance,
+              (error) => {
+                if (error) {
+                  return res.send({ message: false })
+                }
+                return res.status(204).send({ message: true })
+              }
+            )
+          } catch {
+            return res.send({ message: false })
           }
-        )
-        }catch{return res.send({ message: false })}
-      }
+        }
       }
     })
   } catch {
@@ -403,7 +544,7 @@ router.showIndividualCurrentAccount = (req, res) => {
     if (!account) {
       return res.send({ message: false })
     }
-    return res.status(200).send({ message:true })
+    return res.status(200).send({ account: account, message: true })
   }) // maybe add a .populate
 }
 
@@ -418,7 +559,7 @@ router.showIndividualCurrentAccountIBAN = (req, res) => {
       return res.send({ message: false })
     }
     console.log(true)
-    return res.status(200).send({ message: true })
+    return res.status(200).send({ account: account, message: true })
   }).catch((error) => {
     return res.send({ message: false })
   })
@@ -433,7 +574,7 @@ router.showIndividualSavingsAccountIBAN = (req, res) => {
     if (!account) {
       return res.send({ message: false })
     }
-    return res.status(200).send({ message: true })
+    return res.status(200).send({ account: account, message: true })
   }).catch((error) => {
     return res.send({ message: false })
   })
@@ -448,7 +589,7 @@ router.showIndividualSavingsAccount = (req, res) => {
     if (!account) {
       return res.send({ message: false })
     }
-    return res.status(200).send({ message:true })
+    return res.status(200).send({ account: account, message: true })
   }) // maybe add a .populate
 }
 module.exports = router

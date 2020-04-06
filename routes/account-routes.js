@@ -18,18 +18,23 @@ router.get('/find-current-individual/iban/:iban', accountController.showIndividu
 router.get('/find-savings-individual/:id', auth.verifyRToken, accountController.showIndividualSavingsAccount)
 // Read one individual savings account by IBAN
 router.get('/find-savings-individual/iban/:iban', accountController.showIndividualSavingsAccountIBAN)
+
 // Update a spacific current account by id
-router.put('/update-current-account/:id', accountController.updateCurrentAccount)
+router.put('/update-current-account/:id', accountController.updateCurrentAccountID)
+
 // Update a spacific current account by IBAN + funds
-router.put('/update-current-account/iban/:iban', accountController.updateCurrentAccountIBAN)
+// router.put('/update-current-account/iban/:iban', accountController.updateCurrentAccountIBAN)
 // Update a spacific current account by IBAN + funds
-router.put('/update-savings-account/iban/:iban', accountController.updateSavingsAccountIBAN)
-// Update a current account by id - funds
-router.put('/update-current-account/minus/:id', accountController.updateCurrentAccountMinus)
-// Update a savings account by id - funds
-router.put('/update-savings-account/minus/:id', accountController.updateSavingsAccountMinus)
+// router.put('/update-savings-account/iban/:iban', accountController.updateSavingsAccountIBAN)
+
+// Update a current account by iban + funds
+router.put('/update-current-account/minus/:iban', accountController.updateCurrentAccountMinus)
+// Update a savings account by iban + funds
+router.put('/update-savings-account/minus/:iban', accountController.updateSavingsAccountMinus)
+
 // Update a specific savings account by id
-router.put('/update-savings-account/:id', accountController.updateSavingsAccount)
+router.put('/update-savings-account/:id', accountController.updateSavingsAccountID)
+
 // Delete specific current account by id
 router.delete('/delete-current-account/:id', auth.verifyRToken, accountController.removeCurrentAccount)
 // Delete specific savings account by id
