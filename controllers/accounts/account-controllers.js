@@ -128,6 +128,56 @@ checkLocalAndUpdateAdd = (req, res) => {
   res.send(req.body.transaction)
 }
 
+// Update Savings Account with IBAN
+router.updateSavingsAccountIBAN = (req, res) => {
+  try {
+    SAccount.findOne({ iban: req.body.transaction[0] }, (error, account) => {
+      if (error) {
+        return res.send({ message: false })
+      }
+      if (account) {
+        console.log(account)
+        let newBalance = account.balance + req.body.transaction[2]
+        const updateBalance = account
+        updateBalance.balance = newBalance
+        const validate = false
+        if (validate === false){
+        try{
+        SAccount.findByIdAndUpdate(
+          { _id: account.id },
+          updateBalance,
+          (error) => {
+            if (error) {
+              return res.send({ message: false })
+            }
+            //return res.status(204).send({ message: true })
+          }
+        )
+        }catch{}
+      }
+      if(validate === false){
+        let id = req.body.transaction[1]
+        const one = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+        const two = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+        const three = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+        const four = axios.put(process.env.AN_POST_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+        
+        axios.all([one,two,three,four])
+        .then(axios.spread((one,two,three,four)=>{
+            console.log("one: "+one)
+            console.log("two: "+two)
+            console.log("three: "+three)
+            console.log("four: "+four)
+
+        }))
+      }
+      }
+    })
+  } catch {
+    console.log('Not internal')
+  }
+}
+
 // Update Current Account with IBAN
 router.updateCurrentAccountIBAN = (req, res) => {
   try {
@@ -157,10 +207,10 @@ router.updateCurrentAccountIBAN = (req, res) => {
       }
       if(validate === false){
         let id = req.body.transaction[1]
-        const one = axios.put(process.env.WIT_BANK_SERVER+'/api/account//update-current-account/minus/'+id,req)
-        const two = axios.put(process.env.AIB_BANK_SERVER+'/api/account//update-current-account/minus/'+id,req)
-        const three = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account//update-current-account/minus/'+id,req)
-        const four = axios.put(process.env.AN_POST_SERVER+'/api/account//update-current-account/minus/'+id,req)
+        const one = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
+        const two = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
+        const three = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-current-account/minus/'+id,req)
+        const four = axios.put(process.env.AN_POST_SERVER+'/api/account/update-current-account/minus/'+id,req)
         
         axios.all([one,two,three,four])
         .then(axios.spread((one,two,three,four)=>{
@@ -193,6 +243,39 @@ router.updateCurrentAccountMinus = (req,res) => {
         if (validate === false){
         try{
         CAccount.findByIdAndUpdate(
+          { _id: account.id },
+          updateBalance,
+          (error) => {
+            if (error) {
+              return res.send({ message: false })
+            }
+            return res.status(204).send({ message: true })
+          }
+        )
+        }catch{}
+      }
+      }
+    })
+  } catch {
+    console.log('Not internal')
+  }
+}
+
+router.updateSavingsAccountMinus = (req,res) => {
+  try {
+    SAccount.findOne({ _id: req.body.transaction[1] }, (error, account) => {
+      if (error) {
+        return res.send({ message: false })
+      }
+      if (account) {
+        console.log(account)
+        let newBalance = account.balance - req.body.transaction[2]
+        const updateBalance = account
+        updateBalance.balance = newBalance
+        const validate = false
+        if (validate === false){
+        try{
+        SAccount.findByIdAndUpdate(
           { _id: account.id },
           updateBalance,
           (error) => {
