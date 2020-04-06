@@ -11,11 +11,11 @@ router.get('/find-current-all', auth.verifyRToken, accountController.indexCurren
 // Read all savings accounts
 router.get('/find-savings-all', auth.verifyRToken, accountController.indexSavingsAccount)
 // Read one individual current account by id
-router.get('/find-current-individual/:id', accountController.showIndividualCurrentAccount)
+router.get('/find-current-individual/:id', auth.verifyRToken, accountController.showIndividualCurrentAccount)
 // Read one individual current account by IBAN
 router.get('/find-current-individual/iban/:iban', accountController.showIndividualCurrentAccountIBAN)
 // Read one individual savings account by id
-router.get('/find-savings-individual/:id', accountController.showIndividualSavingsAccount)
+router.get('/find-savings-individual/:id', auth.verifyRToken, accountController.showIndividualSavingsAccount)
 // Read one individual savings account by IBAN
 router.get('/find-savings-individual/iban/:iban', accountController.showIndividualSavingsAccountIBAN)
 // Update a spacific current account by id

@@ -403,7 +403,7 @@ router.showIndividualCurrentAccount = (req, res) => {
     if (!account) {
       return res.send({ message: false })
     }
-    return res.status(200).send({ account: account })
+    return res.status(200).send({ message:true })
   }) // maybe add a .populate
 }
 
@@ -448,7 +448,7 @@ router.showIndividualSavingsAccount = (req, res) => {
     if (!account) {
       return res.send({ message: false })
     }
-    return res.status(200).send({ account: account })
+    return res.status(200).send({ message:true })
   }) // maybe add a .populate
 }
 module.exports = router
