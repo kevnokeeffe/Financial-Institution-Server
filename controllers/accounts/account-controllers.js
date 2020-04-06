@@ -217,8 +217,8 @@ router.updateCurrentAccountIBAN = async (req, res) => {
         console.log("here error")
         let id = req.body.transaction[1]
        console.log(id)
-        axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req).then(reply => {console.log(reply)}).catch(function (error) {
-          console.log(reply);
+        axios.put(process.env.BANK_SERVER+'/api/account/update-current-account/minus/'+id,req).then(reply => {console.log(reply)}).catch(function (error) {
+          console.log(error);
         });
 
         // axios.all([one(id,req),two(id,req),three(id,req),four(id,req),five(id,req),six(id,req),seven(id,req),eight(id,req)])
@@ -241,32 +241,36 @@ router.updateCurrentAccountIBAN = async (req, res) => {
 }
 
 function one(id,req) {
-  console.log("here now")
-  return axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req);
+  const one = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
+  return one
 }
 function two(id,req) {
-  console.log("here now")
-  console.log(id)
-  console.log(req.body)
-  return axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
+  const two = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
+  return two
 }
 function three(id,req) {
-  return axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-current-account/minus/'+id,req)
+  const three = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-current-account/minus/'+id,req)
+  return three
 }
 function four(id,req) {
-  return axios.put(process.env.AN_POST_SERVER+'/api/account/update-current-account/minus/'+id,req)
+  const four = axios.put(process.env.AN_POST_SERVER+'/api/account/update-current-account/minus/'+id,req)
+  return four
 }
 function five(id,req) {
-  return axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+  const five = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+  return five
 }
 function six(id,req) {
-  return axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+  const six = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+  return six
 }
 function seven(id,req) {
-  return axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+  const seven = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+  return seven
 }
 function eight(id,req) {
-  return axios.put(process.env.AN_POST_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+  const eight = axios.put(process.env.AN_POST_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+  return eight
 }
 
 
@@ -300,7 +304,7 @@ router.updateCurrentAccountMinus = (req,res) => {
       }
     })
   } catch {
-    console.log('Not internal')
+    return res.send({ message: false })
   }
 }
 
