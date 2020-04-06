@@ -157,18 +157,27 @@ router.updateSavingsAccountIBAN = (req, res) => {
       }
       if(validate === false){
         let id = req.body.transaction[1]
-        const one = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-        const two = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-        const three = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-        const four = axios.put(process.env.AN_POST_SERVER+'/api/account/update-savings-account/minus/'+id,req)
-        
-        axios.all([one,two,three,four])
-        .then(axios.spread((one,two,three,four)=>{
+        const one = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
+        const two = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
+        const three = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-current-account/minus/'+id,req)
+        const four = axios.put(process.env.AN_POST_SERVER+'/api/account/update-current-account/minus/'+id,req)
+        const five = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+        const six = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+        const seven = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+        const eight = axios.put(process.env.AN_POST_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+
+        axios.all([one,two,three,four,five,six,seven,eight])
+        .then(axios.spread((one,two,three,four,five,six,seven,eight)=>{
             console.log("one: "+one)
             console.log("two: "+two)
             console.log("three: "+three)
             console.log("four: "+four)
+            console.log("five: "+five)
+            console.log("six: "+six)
+            console.log("seven: "+seven)
+            console.log("eight: "+eight)
 
+            return res.status(204).send({ message: true })
         }))
       }
       }
@@ -211,14 +220,23 @@ router.updateCurrentAccountIBAN = (req, res) => {
         const two = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-current-account/minus/'+id,req)
         const three = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-current-account/minus/'+id,req)
         const four = axios.put(process.env.AN_POST_SERVER+'/api/account/update-current-account/minus/'+id,req)
-        
-        axios.all([one,two,three,four])
-        .then(axios.spread((one,two,three,four)=>{
+        const five = axios.put(process.env.WIT_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+        const six = axios.put(process.env.AIB_BANK_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+        const seven = axios.put(process.env.CREDIT_UNION_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+        const eight = axios.put(process.env.AN_POST_SERVER+'/api/account/update-savings-account/minus/'+id,req)
+
+        axios.all([one,two,three,four,five,six,seven,eight])
+        .then(axios.spread((one,two,three,four,five,six,seven,eight)=>{
             console.log("one: "+one)
             console.log("two: "+two)
             console.log("three: "+three)
             console.log("four: "+four)
+            console.log("five: "+five)
+            console.log("six: "+six)
+            console.log("seven: "+seven)
+            console.log("eight: "+eight)
 
+            return res.status(204).send({ message: true })
         }))
       }
       }
@@ -380,8 +398,24 @@ router.showIndividualCurrentAccount = (req, res) => {
   }) // maybe add a .populate
 }
 
+// Find one single current account by IBAN
 router.showIndividualCurrentAccountIBAN = (req, res) => {
   CAccount.findOne({ iban: req.params.iban }, (error, account) => {
+    if (error) {
+      return res.send({ message: false })
+    }
+    if (!account) {
+      return res.send({ message: false })
+    }
+    return res.status(200).send({ message: true })
+  }).catch((error) => {
+    return res.send({ message: false })
+  })
+}
+
+// Find one single savings account by IBAN
+router.showIndividualSavingsAccountIBAN = (req, res) => {
+  SAccount.findOne({ iban: req.params.iban }, (error, account) => {
     if (error) {
       return res.send({ message: false })
     }

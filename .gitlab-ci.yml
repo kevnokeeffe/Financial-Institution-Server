@@ -68,7 +68,7 @@ deploy_production:
     - dpl --provider=heroku --app=$HEROKU_CREDIT_UNION_SERVER --api-key=$HEROKU_API_KEY
     - dpl --provider=heroku --app=$HEROKU_AIB_BANK_SERVER --api-key=$HEROKU_API_KEY
     - dpl --provider=heroku --app=$HEROKU_POST_OFFICE_SERVER --api-key=$HEROKU_API_KEY
-    - echo "Deployed to WIT Bank server" 
+    - echo "Deployed to Credit Union, AIB an An Post Bank servers" 
 
 deploy_production_dev:
   image: ruby:latest
