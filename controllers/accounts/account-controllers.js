@@ -123,11 +123,6 @@ router.updateCurrentAccount = (req, res) => {
   })
 }
 
-checkLocalAndUpdateAdd = (req, res) => {
-  console.log(req.body)
-  res.send(req.body.transaction)
-}
-
 // Update Savings Account with IBAN
 router.updateSavingsAccountIBAN = (req, res) => {
   try {
