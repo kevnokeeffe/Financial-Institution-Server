@@ -190,10 +190,9 @@ router.updateSavingsAccountIBAN = (req, res) => {
 
 // Update Current Account with IBAN
 router.updateCurrentAccountID = async (req, res) => {
-  console.log(req.body)
-  let id = req.body.transaction[1]
-  let iban = req.body.transaction[0]
-  
+  console.log(req)
+  const id = req[1]
+  const iban = req[0]
   console.log(id+" space "+iban)
   await CAccount.findOne({ _id: id }, (error, account) => {
     if (error) {
@@ -201,7 +200,7 @@ router.updateCurrentAccountID = async (req, res) => {
     }
     if (account) {
       console.log('current' + account)
-      let newBalance = account.balance - req.body.transaction[2]
+      let newBalance = account.balance - req[2]
       const updateBalance = account
       updateBalance.balance = newBalance
       const validate = false
@@ -295,9 +294,9 @@ router.updateCurrentAccountID = async (req, res) => {
 
 // UPDATE SAVINGS ACCOUNT ID
 router.updateSavingsAccountID = async (req, res) => {
-  console.log(req.body)
-  let id = req.body.transaction[1]
-  let iban = req.body.transaction[0]
+  console.log(req)
+  const id = req[1]
+  const iban = req[0]
   console.log(req.body)
   console.log(id+" space "+iban)
   await SAccount.findOne({ _id: id }, (error, account) => {
@@ -306,7 +305,7 @@ router.updateSavingsAccountID = async (req, res) => {
     }
     if (account) {
       console.log('Savings' + account)
-      let newBalance = account.balance - req.body.transaction[2]
+      let newBalance = account.balance - req[2]
       const updateBalance = account
       updateBalance.balance = newBalance
       const validate = false
@@ -551,7 +550,7 @@ router.showIndividualCurrentAccount = (req, res) => {
     if (!account) {
       return res.send({ message: false })
     }
-    return res.status(200).send({ account: account, message: true })
+    return res.status(200).send({ message: true })
   }) // maybe add a .populate
 }
 
@@ -596,7 +595,7 @@ router.showIndividualSavingsAccount = (req, res) => {
     if (!account) {
       return res.send({ message: false })
     }
-    return res.status(200).send({ account: account, message: true })
+    return res.status(200).send({message: true })
   }) // maybe add a .populate
 }
 module.exports = router
