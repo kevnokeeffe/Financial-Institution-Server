@@ -190,9 +190,9 @@ router.updateSavingsAccountIBAN = (req, res) => {
 
 // Update Current Account with IBAN
 router.updateCurrentAccountID = async (req, res) => {
-  console.log(req)
-  const id = req[1]
-  const iban = req[0]
+  console.log(req.body)
+  const id = req.body[1]
+  const iban = req.body[0]
   console.log(id+" space "+iban)
   await CAccount.findOne({ _id: id }, (error, account) => {
     if (error) {
@@ -200,7 +200,7 @@ router.updateCurrentAccountID = async (req, res) => {
     }
     if (account) {
       console.log('current' + account)
-      let newBalance = account.balance - req[2]
+      let newBalance = account.balance - req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
       const validate = false
@@ -294,10 +294,9 @@ router.updateCurrentAccountID = async (req, res) => {
 
 // UPDATE SAVINGS ACCOUNT ID
 router.updateSavingsAccountID = async (req, res) => {
-  console.log(req)
-  const id = req[1]
-  const iban = req[0]
   console.log(req.body)
+  const id = req.body[1]
+  const iban = req.body[0]
   console.log(id+" space "+iban)
   await SAccount.findOne({ _id: id }, (error, account) => {
     if (error) {
@@ -305,7 +304,7 @@ router.updateSavingsAccountID = async (req, res) => {
     }
     if (account) {
       console.log('Savings' + account)
-      let newBalance = account.balance - req[2]
+      let newBalance = account.balance - req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
       const validate = false
@@ -397,15 +396,15 @@ router.updateSavingsAccountID = async (req, res) => {
 
 
 router.updateCurrentAccountMinus = (req, res) => {
-  console.log(req.body.transaction)
+  console.log(req.body)
   try {
-    CAccount.findOne({ _id: req.body.transaction[0] }, (error, account) => {
+    CAccount.findOne({ _id: req.body[0] }, (error, account) => {
       if (error) {
         return res.send({ message: false })
       }
       if (account) {
         console.log(account)
-        let newBalance = account.balance + req.body.transaction[2]
+        let newBalance = account.balance + req.body[2]
         const updateBalance = account
         updateBalance.balance = newBalance
         const validate = false
@@ -433,15 +432,15 @@ router.updateCurrentAccountMinus = (req, res) => {
 }
 
 router.updateSavingsAccountMinus = (req, res) => {
-  console.log(req.body.transaction)
+  console.log(req.body)
   try {
-    SAccount.findOne({ _id: req.body.transaction[0] }, (error, account) => {
+    SAccount.findOne({ _id: req.body[0] }, (error, account) => {
       if (error) {
         return res.send({ message: false })
       }
       if (account) {
         console.log(account)
-        let newBalance = account.balance + req.body.transaction[2]
+        let newBalance = account.balance + req.body[2]
         const updateBalance = account
         updateBalance.balance = newBalance
         const validate = false
