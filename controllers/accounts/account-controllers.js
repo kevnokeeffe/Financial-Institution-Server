@@ -191,6 +191,7 @@ router.updateSavingsAccountIBAN = (req, res) => {
 // Update Current Account with IBAN
 router.updateCurrentAccountID = async (req, res) => {
   console.log(req.body)
+  const data = req.body
   const id = req.body[1]
   const iban = req.body[0]
   console.log(id+" space "+iban)
@@ -199,11 +200,12 @@ router.updateCurrentAccountID = async (req, res) => {
       return res.send({ message: false })
     }
     if (account) {
-      console.log('current' + account)
+      console.log('current in ' + account)
       let newBalance = account.balance - req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
       const validate = false
+      console.log('current out' + account)
       if (validate === false) {
         try {
           CAccount.findByIdAndUpdate(
@@ -225,7 +227,7 @@ router.updateCurrentAccountID = async (req, res) => {
           process.env.WIT_BANK_SERVER +
             '/api/account/update-current-account/minus/' +
             iban,
-          req
+            data
         )
         .then((reply) => {
           if (reply.data.message === true) {
@@ -242,7 +244,7 @@ router.updateCurrentAccountID = async (req, res) => {
           process.env.AIB_BANK_SERVER +
             '/api/account/update-current-account/minus/' +
             iban,
-          req
+            data
         )
         .then((reply) => {
           if (reply.data.message === true) {
@@ -258,7 +260,7 @@ router.updateCurrentAccountID = async (req, res) => {
           process.env.CREDIT_UNION_SERVER +
             '/api/account/update-current-account/minus/' +
             iban,
-          req
+            data
         )
         .then((reply) => {
           if (reply.data.message === true) {
@@ -274,7 +276,7 @@ router.updateCurrentAccountID = async (req, res) => {
           process.env.AN_POST_SERVER +
             '/api/account/update-current-account/minus/' +
             iban,
-          req
+            data
         )
         .then((reply) => {
           if (reply.data.message === true) {
@@ -295,6 +297,7 @@ router.updateCurrentAccountID = async (req, res) => {
 // UPDATE SAVINGS ACCOUNT ID
 router.updateSavingsAccountID = async (req, res) => {
   console.log(req.body)
+  const data = req.body
   const id = req.body[1]
   const iban = req.body[0]
   console.log(id+" space "+iban)
@@ -329,7 +332,7 @@ router.updateSavingsAccountID = async (req, res) => {
           process.env.WIT_BANK_SERVER +
             '/api/account/update-current-account/minus/' +
             iban,
-          req
+            data
         )
         .then((reply) => {
           if (reply.data.message === true) {
@@ -345,7 +348,7 @@ router.updateSavingsAccountID = async (req, res) => {
           process.env.AIB_BANK_SERVER +
             '/api/account/update-current-account/minus/' +
             iban,
-          req
+            data
         )
         .then((reply) => {
           if (reply.data.message === true) {
@@ -361,7 +364,7 @@ router.updateSavingsAccountID = async (req, res) => {
           process.env.CREDIT_UNION_SERVER +
             '/api/account/update-current-account/minus/' +
             iban,
-          req
+            data
         )
         .then((reply) => {
           if (reply.data.message === true) {
@@ -377,7 +380,7 @@ router.updateSavingsAccountID = async (req, res) => {
           process.env.AN_POST_SERVER +
             '/api/account/update-current-account/minus/' +
             iban,
-          req
+            data
         )
         .then((reply) => {
           if (reply.data.message === true) {
@@ -396,7 +399,8 @@ router.updateSavingsAccountID = async (req, res) => {
 
 
 router.updateCurrentAccountMinus = (req, res) => {
-  console.log(req.body)
+  console.log("lets see c "+req)
+  console.log("lets see c body "+req.body)
   try {
     CAccount.findOne({ _id: req.body[0] }, (error, account) => {
       if (error) {
@@ -432,7 +436,8 @@ router.updateCurrentAccountMinus = (req, res) => {
 }
 
 router.updateSavingsAccountMinus = (req, res) => {
-  console.log(req.body)
+  console.log("lets see s "+req)
+  console.log("lets see s body "+req.body)
   try {
     SAccount.findOne({ _id: req.body[0] }, (error, account) => {
       if (error) {
