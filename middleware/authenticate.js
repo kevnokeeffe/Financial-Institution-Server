@@ -53,10 +53,10 @@ router.validateRefresh = (req, res, next) => {
 router.verifyRToken = ((req, res, next) => {
 	const token = req.headers.authorization || req.headers['Authorization'];
 	if (!token)
-		return res.status(403).send({ auth: false, message: 'No token provided.' });
+		return res.send({ auth: false, message: false });
 	jwt.verify(token, process.env.SECRET_KEY_REFRESH, function(err, decoded) {
 		if (err)
-			return res.status(501).send({ auth: false, message: 'Failed to authenticate token.' });
+			return res.send({ auth:false, message:false });
 		// if everything good, save to request for use in other routes
 		req.userId = decoded.id;
 		next();
