@@ -190,10 +190,10 @@ router.updateSavingsAccountIBAN = (req, res) => {
 
 // Update Current Account with IBAN
 router.updateCurrentAccountID = async (req, res) => {
-  
+  console.log(req.body)
   let id = req.body.transaction[1]
   let iban = req.body.transaction[0]
-  console.log(req.body)
+  
   console.log(id+" space "+iban)
   await CAccount.findOne({ _id: id }, (error, account) => {
     if (error) {
@@ -295,6 +295,7 @@ router.updateCurrentAccountID = async (req, res) => {
 
 // UPDATE SAVINGS ACCOUNT ID
 router.updateSavingsAccountID = async (req, res) => {
+  console.log(req.body)
   let id = req.body.transaction[1]
   let iban = req.body.transaction[0]
   console.log(req.body)
