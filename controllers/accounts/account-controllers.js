@@ -190,8 +190,11 @@ router.updateSavingsAccountIBAN = (req, res) => {
 
 // Update Current Account with IBAN
 router.updateCurrentAccountID = async (req, res) => {
+  
   let id = req.body.transaction[1]
   let iban = req.body.transaction[0]
+  console.log(req.body)
+  console.log(id+" space "+iban)
   await CAccount.findOne({ _id: id }, (error, account) => {
     if (error) {
       return res.send({ message: false })
@@ -232,6 +235,7 @@ router.updateCurrentAccountID = async (req, res) => {
           }
           else{console.log(resp.data.message)}
         }).catch((error) => {
+          console.log("Here is where the error is")
           //return res.send({ message: false });
         })
       axios
@@ -293,6 +297,8 @@ router.updateCurrentAccountID = async (req, res) => {
 router.updateSavingsAccountID = async (req, res) => {
   let id = req.body.transaction[1]
   let iban = req.body.transaction[0]
+  console.log(req.body)
+  console.log(id+" space "+iban)
   await SAccount.findOne({ _id: id }, (error, account) => {
     if (error) {
       return res.send({ message: false })
