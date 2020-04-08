@@ -244,13 +244,8 @@ router.showIndividualSavingsAccount = (req, res) => {
   }) // maybe add a .populate
 }
 
-
-
-
-
-
 // Update current account balance
-router.updateTheCurrentAccount = async (req,res) =>{
+router.updateTheCurrentAccount = async (req, res) => {
   const data = req.body
   const id = req.body[1]
   const iban = req.body[0]
@@ -258,7 +253,9 @@ router.updateTheCurrentAccount = async (req,res) =>{
     if (error) {
       return res.send({ message: false })
     }
-    if (!account || account === null) {return res.send({message:false})}
+    if (!account || account === null) {
+      return res.send({ message: false })
+    }
     if (account) {
       let newBalance = account.balance - req.body[2]
       const updateBalance = account
@@ -271,118 +268,134 @@ router.updateTheCurrentAccount = async (req,res) =>{
             return res.send({ message: false })
           }
         }
-      ).then( async resp => {
+      ).then(async (resp) => {
         await axios
-        .post(
-          process.env.WIT_BANK_SERVER +
-            '/api/account/update-current-account-add/' +
-            iban,
-          data
-        ).then(response =>{
-          if(response.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.WIT_BANK_SERVER +
+              '/api/account/update-current-account-add/' +
+              iban,
+            data
+          )
+          .then((response) => {
+            if (response.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.WIT_BANK_SERVER +
-            '/api/account/update-savings-account-add/' +
-            iban,
-          data
-        ).then(resp =>{
-          if(resp.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.WIT_BANK_SERVER +
+              '/api/account/update-savings-account-add/' +
+              iban,
+            data
+          )
+          .then((resp) => {
+            if (resp.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.AIB_BANK_SERVER +
-            '/api/account/update-current-account-add/' +
-            iban,
-          data
-        ).then(response =>{
-          if(response.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.AIB_BANK_SERVER +
+              '/api/account/update-current-account-add/' +
+              iban,
+            data
+          )
+          .then((response) => {
+            if (response.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.AIB_BANK_SERVER +
-            '/api/account/update-savings-account-add/' +
-            iban,
-          data
-        ).then(resp =>{
-          if(resp.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.AIB_BANK_SERVER +
+              '/api/account/update-savings-account-add/' +
+              iban,
+            data
+          )
+          .then((resp) => {
+            if (resp.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.CREDIT_UNION_SERVER +
-            '/api/account/update-current-account-add/' +
-            iban,
-          data
-        ).then(response =>{
-          if(response.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.CREDIT_UNION_SERVER +
+              '/api/account/update-current-account-add/' +
+              iban,
+            data
+          )
+          .then((response) => {
+            if (response.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.CREDIT_UNION_SERVER +
-            '/api/account/update-savings-account-add/' +
-            iban,
-          data
-        ).then(resp =>{
-          if(resp.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.CREDIT_UNION_SERVER +
+              '/api/account/update-savings-account-add/' +
+              iban,
+            data
+          )
+          .then((resp) => {
+            if (resp.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.AN_POST_SERVER +
-            '/api/account/update-current-account-add/' +
-            iban,
-          data
-        ).then(response =>{
-          if(response.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.AN_POST_SERVER +
+              '/api/account/update-current-account-add/' +
+              iban,
+            data
+          )
+          .then((response) => {
+            if (response.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.AN_POST_SERVER +
-            '/api/account/update-savings-account-add/' +
-            iban,
-          data
-        ).then(resp =>{
-          if(resp.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.AN_POST_SERVER +
+              '/api/account/update-savings-account-add/' +
+              iban,
+            data
+          )
+          .then((resp) => {
+            if (resp.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
       })
     }
   })
 }
 
 // Update savings account balance
-router.updateTheSavingsAccount = async (req,res) =>{
+router.updateTheSavingsAccount = async (req, res) => {
   const data = req.body
   const id = req.body[1]
   const iban = req.body[0]
@@ -390,7 +403,9 @@ router.updateTheSavingsAccount = async (req,res) =>{
     if (error) {
       return res.send({ message: false })
     }
-    if (!account || account === null) {return res.send({message:false})}
+    if (!account || account === null) {
+      return res.send({ message: false })
+    }
     if (account) {
       let newBalance = account.balance - req.body[2]
       const updateBalance = account
@@ -403,111 +418,127 @@ router.updateTheSavingsAccount = async (req,res) =>{
             return res.send({ message: false })
           }
         }
-      ).then( async resp => {
+      ).then(async (resp) => {
         await axios
-        .post(
-          process.env.WIT_BANK_SERVER +
-            '/api/account/update-current-account-add/' +
-            iban,
-          data
-        ).then(response =>{
-          if(response.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.WIT_BANK_SERVER +
+              '/api/account/update-current-account-add/' +
+              iban,
+            data
+          )
+          .then((response) => {
+            if (response.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.WIT_BANK_SERVER +
-            '/api/account/update-savings-account-add/' +
-            iban,
-          data
-        ).then(response =>{
-          if(response.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.WIT_BANK_SERVER +
+              '/api/account/update-savings-account-add/' +
+              iban,
+            data
+          )
+          .then((response) => {
+            if (response.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.AIB_BANK_SERVER +
-            '/api/account/update-current-account-add/' +
-            iban,
-          data
-        ).then(response =>{
-          if(response.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.AIB_BANK_SERVER +
+              '/api/account/update-current-account-add/' +
+              iban,
+            data
+          )
+          .then((response) => {
+            if (response.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.AIB_BANK_SERVER +
-            '/api/account/update-savings-account-add/' +
-            iban,
-          data
-        ).then(resp =>{
-          if(resp.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.AIB_BANK_SERVER +
+              '/api/account/update-savings-account-add/' +
+              iban,
+            data
+          )
+          .then((resp) => {
+            if (resp.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.CREDIT_UNION_SERVER +
-            '/api/account/update-current-account-add/' +
-            iban,
-          data
-        ).then(response =>{
-          if(response.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.CREDIT_UNION_SERVER +
+              '/api/account/update-current-account-add/' +
+              iban,
+            data
+          )
+          .then((response) => {
+            if (response.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.CREDIT_UNION_SERVER +
-            '/api/account/update-savings-account-add/' +
-            iban,
-          data
-        ).then(resp =>{
-          if(resp.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.CREDIT_UNION_SERVER +
+              '/api/account/update-savings-account-add/' +
+              iban,
+            data
+          )
+          .then((resp) => {
+            if (resp.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.AN_POST_SERVER +
-            '/api/account/update-current-account-add/' +
-            iban,
-          data
-        ).then(response =>{
-          if(response.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.AN_POST_SERVER +
+              '/api/account/update-current-account-add/' +
+              iban,
+            data
+          )
+          .then((response) => {
+            if (response.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
         await axios
-        .post(
-          process.env.AN_POST_SERVER +
-            '/api/account/update-savings-account-add/' +
-            iban,
-          data
-        ).then(resp =>{
-          if(resp.data.message === true){
-            return res.status(200).send({message:true})
-          }
-        }).catch((error) => {
-          return res.send({ message: false })
-        })
+          .post(
+            process.env.AN_POST_SERVER +
+              '/api/account/update-savings-account-add/' +
+              iban,
+            data
+          )
+          .then((resp) => {
+            if (resp.data.message === true) {
+              return res.status(200).send({ message: true })
+            }
+          })
+          .catch((error) => {
+            return res.send({ message: false })
+          })
       })
     }
   })
@@ -519,8 +550,9 @@ router.updateSavingsAccountAdd = (req, res) => {
     if (error) {
       return res.send({ message: false })
     }
-    if(!account || account === null){
-      return res.send({message:false})}
+    if (!account || account === null) {
+      return res.send({ message: false })
+    }
     if (account) {
       let newBalance = account.balance + req.body[2]
       const updateBalance = account
@@ -531,9 +563,8 @@ router.updateSavingsAccountAdd = (req, res) => {
         (error) => {
           if (error) {
             return res.send({ message: false })
-          }
-          else{
-          return res.send({ message: true })
+          } else {
+            return res.send({ message: true })
           }
         }
       )
@@ -547,8 +578,9 @@ router.updateCurrentAccountAdd = (req, res) => {
     if (error) {
       return res.send({ message: false })
     }
-    if(!account || account === null){
-      return res.send({message:false})}
+    if (!account || account === null) {
+      return res.send({ message: false })
+    }
     if (account) {
       let newBalance = account.balance + req.body[2]
       const updateBalance = account
@@ -559,9 +591,8 @@ router.updateCurrentAccountAdd = (req, res) => {
         (error) => {
           if (error) {
             return res.send({ message: false })
-          }
-          else{
-          return res.send({ message: true })
+          } else {
+            return res.send({ message: true })
           }
         }
       )
