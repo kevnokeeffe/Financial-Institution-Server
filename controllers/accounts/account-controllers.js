@@ -216,7 +216,9 @@ router.updateCurrentAccountID = async (req, res) => {
                 return res.send({ message: false })
               }
             }
-          )
+          ).then(rsp =>{
+            console.log("Response: "+rsp.data)
+          })
         } catch {
           return res.send({ message: false })
         }
@@ -234,10 +236,11 @@ router.updateCurrentAccountID = async (req, res) => {
             console.log(reply.data.message)
             return res.status(200).send({ message: true })
           }
+          if (reply.data.message === false){console.log("F "+resp.data.message)}
           else{console.log(resp.data.message)}
         }).catch((error) => {
           console.log("Here is where the error is")
-          //return res.send({ message: false });
+          return res.send({ message: false });
         })
       axios
         .put(
@@ -275,6 +278,74 @@ router.updateCurrentAccountID = async (req, res) => {
         .put(
           process.env.AN_POST_SERVER +
             '/api/account/update-current-account/minus/' +
+            iban,
+            data
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+
+/// Savings account plus calls
+
+        axios
+        .put(
+          process.env.WIT_BANK_SERVER +
+            '/api/account/update-savings-account/minus/' +
+            iban,
+            data
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          console.log("Here is where the error is")
+          //return res.send({ message: false });
+        })
+      axios
+        .put(
+          process.env.AIB_BANK_SERVER +
+            '/api/account/update-savings-account/minus/' +
+            iban,
+            data
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+      axios
+        .put(
+          process.env.CREDIT_UNION_SERVER +
+            '/api/account/update-savings-account/minus/' +
+            iban,
+            data
+        )
+        .then((reply) => {
+          if (reply.data.message === true) {
+            console.log(reply.data.message)
+            return res.status(200).send({ message: true })
+          }
+          else{console.log(resp.data.message)}
+        }).catch((error) => {
+          //return res.send({ message: false });
+        })
+      axios
+        .put(
+          process.env.AN_POST_SERVER +
+            '/api/account/update-savings-account/minus/' +
             iban,
             data
         )
@@ -391,6 +462,74 @@ router.updateSavingsAccountID = async (req, res) => {
         }).catch((error) => {
           //return res.send({ message: false });
         })
+
+/// Savings account plus calls
+
+axios
+.put(
+  process.env.WIT_BANK_SERVER +
+    '/api/account/update-savings-account/minus/' +
+    iban,
+    data
+)
+.then((reply) => {
+  if (reply.data.message === true) {
+    console.log(reply.data.message)
+    return res.status(200).send({ message: true })
+  }
+  else{console.log(resp.data.message)}
+}).catch((error) => {
+  console.log("Here is where the error is")
+  //return res.send({ message: false });
+})
+axios
+.put(
+  process.env.AIB_BANK_SERVER +
+    '/api/account/update-savings-account/minus/' +
+    iban,
+    data
+)
+.then((reply) => {
+  if (reply.data.message === true) {
+    console.log(reply.data.message)
+    return res.status(200).send({ message: true })
+  }
+  else{console.log(resp.data.message)}
+}).catch((error) => {
+  //return res.send({ message: false });
+})
+axios
+.put(
+  process.env.CREDIT_UNION_SERVER +
+    '/api/account/update-savings-account/minus/' +
+    iban,
+    data
+)
+.then((reply) => {
+  if (reply.data.message === true) {
+    console.log(reply.data.message)
+    return res.status(200).send({ message: true })
+  }
+  else{console.log(resp.data.message)}
+}).catch((error) => {
+  //return res.send({ message: false });
+})
+axios
+.put(
+  process.env.AN_POST_SERVER +
+    '/api/account/update-savings-account/minus/' +
+    iban,
+    data
+)
+.then((reply) => {
+  if (reply.data.message === true) {
+    console.log(reply.data.message)
+    return res.status(200).send({ message: true })
+  }
+  else{console.log(resp.data.message)}
+}).catch((error) => {
+  //return res.send({ message: false });
+})
     }
   }).catch((error) => {
     return res.send({ message: false });
