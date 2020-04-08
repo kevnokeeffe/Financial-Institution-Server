@@ -22,10 +22,18 @@ router.get('/find-savings-individual/iban/:iban', accountController.showIndividu
 // Update a spacific current account by id
 router.put('/update-current-account/:id', accountController.updateCurrentAccountID)
 
-// Update a spacific current account by IBAN + funds
-// router.put('/update-current-account/iban/:iban', accountController.updateCurrentAccountIBAN)
-// Update a spacific current account by IBAN + funds
-// router.put('/update-savings-account/iban/:iban', accountController.updateSavingsAccountIBAN)
+
+// Current Account
+router.post('/update-current-account-with/:id', accountController.updateTheCurrentAccount)
+router.post('/update-current-account-add/:iban', accountController.updateCurrentAccountAdd)
+
+// Savings Account
+router.post('/update-savings-account-with/:id', accountController.updateTheSavingsAccount)
+router.post('/update-savings-account-add/:iban', accountController.updateSavingsAccountAdd)
+
+
+
+
 
 // Update a current account by iban + funds
 router.put('/update-current-account/minus/:iban', accountController.updateCurrentAccountMinus)
