@@ -188,7 +188,7 @@ router.updateSavingsAccountIBAN = (req, res) => {
   }
 }
 
-// Update Current Account with IBAN
+// Update Current Account with ID
 router.updateCurrentAccountID = async (req, res) => {
   console.log(req.body)
   const data = req.body
@@ -221,7 +221,7 @@ router.updateCurrentAccountID = async (req, res) => {
           return res.send({ message: false })
         }
       }
-
+      console.log("Got here safe, i hope!")
       axios
         .put(
           process.env.WIT_BANK_SERVER +
@@ -341,7 +341,7 @@ router.updateSavingsAccountID = async (req, res) => {
           }
           else{console.log(resp.data.message)}
         }).catch((error) => {
-          //return res.send({ message: false });
+          return res.send({ message: false });
         })
       axios
         .put(
@@ -357,7 +357,7 @@ router.updateSavingsAccountID = async (req, res) => {
           }
           else{console.log(resp.data.message)}
         }).catch((error) => {
-          //return res.send({ message: false });
+          return res.send({ message: false });
         })
       axios
         .put(
@@ -402,7 +402,7 @@ router.updateCurrentAccountMinus = (req, res) => {
   console.log("lets see c "+req)
   console.log("lets see c body "+req.body)
   try {
-    CAccount.findOne({ _id: req.body[0] }, (error, account) => {
+    CAccount.findOne({ iban: req.body[0] }, (error, account) => {
       if (error) {
         return res.send({ message: false })
       }
@@ -439,7 +439,7 @@ router.updateSavingsAccountMinus = (req, res) => {
   console.log("lets see s "+req)
   console.log("lets see s body "+req.body)
   try {
-    SAccount.findOne({ _id: req.body[0] }, (error, account) => {
+    SAccount.findOne({ iban: req.body[0] }, (error, account) => {
       if (error) {
         return res.send({ message: false })
       }
@@ -554,7 +554,7 @@ router.showIndividualCurrentAccount = (req, res) => {
     if (!account) {
       return res.send({ message: false })
     }
-    return res.status(200).send({ message: true })
+    return res.status(200).send({account:account, message: true })
   }) // maybe add a .populate
 }
 
@@ -599,7 +599,7 @@ router.showIndividualSavingsAccount = (req, res) => {
     if (!account) {
       return res.send({ message: false })
     }
-    return res.status(200).send({message: true })
+    return res.status(200).send({account:account, message: true })
   }) // maybe add a .populate
 }
 module.exports = router
