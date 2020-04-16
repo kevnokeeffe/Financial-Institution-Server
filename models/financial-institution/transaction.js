@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-
 const TransactionSchema = new mongoose.Schema({
     userID: {type: String},
+    fiId: {type:String},
+    accountType:{type:String},
     account_from_ID: {type: String}, //fk
     account_to_ID: {type: String}, //fk
     transactionType: {type: String},
@@ -15,6 +16,6 @@ const TransactionSchema = new mongoose.Schema({
     auth_code:{type: String},
     credit_debit:{type: String},
     timeStamp: {type: Date, default: Date.now}
-},{ collection: 'financial-institution-transaction' })
+},{ collection: 'transaction' })
 TransactionSchema.set('timestamps', true)
-module.exports = mongoose.model('financial-institution-transaction',TransactionSchema)
+module.exports = mongoose.model('transaction',TransactionSchema)

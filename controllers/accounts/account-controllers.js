@@ -545,25 +545,19 @@ router.updateTheSavingsAccount = async (req, res) => {
 }
 
 router.updateSavingsAccountAdd = (req, res) => {
-  console.log(req.body)
-  console.log(req.body[2])
+  transactionLog(req)
   const iban = req.body[0]
   SAccount.findOne({ iban: iban }, (error, account) => {
     if (error) {
-      console.log("error")
       return res.send({ message: false })
     }
     if (!account || account === null) {
-      console.log("no account")
       return res.send({ message: false })
     }
     if (account) {
-      console.log(account)
-      console.log("Ammount"+req.body[2])
       let newBalance = account.balance + req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
-      console.log("Account id "+account.id)
       SAccount.findByIdAndUpdate(
         { _id: account.id },
         updateBalance,
@@ -571,7 +565,6 @@ router.updateSavingsAccountAdd = (req, res) => {
           if (error) {
             return res.send({ message: false })
           } else {
-            console.log("Success")
             return res.send({ message: true })
           }
         }
@@ -581,8 +574,8 @@ router.updateSavingsAccountAdd = (req, res) => {
 }
 
 router.updateCurrentAccountAdd = (req, res) => {
+  transactionLog(req)
   const iban = req.body[0]
-  console.log(req.body)
   CAccount.findOne({ iban: iban }, (error, account) => {
     if (error) {
       return res.send({ message: false })
@@ -607,6 +600,10 @@ router.updateCurrentAccountAdd = (req, res) => {
       )
     }
   })
+}
+
+function transactionLog(data){
+console.log(data)
 }
 
 module.exports = router

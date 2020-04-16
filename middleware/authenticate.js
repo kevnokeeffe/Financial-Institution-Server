@@ -64,7 +64,7 @@ router.verifyRToken = ((req, res, next) => {
 });
 
 router.verifyAToken = ((req, res, next) => {
-	const token = req.headers.authenticate || req.headers['authenticate'];
+	const token = req.headers.authorization || req.headers['Authorization'];
 	if (!token)
 		return res.status(403).send({ auth: false, message: 'No token provided.' });
 

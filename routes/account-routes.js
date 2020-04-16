@@ -28,7 +28,6 @@ router.post('/update-current-account-add/:iban',accountController.updateCurrentA
 router.post('/update-savings-account-with/:id',auth.verifyRToken, accountController.updateTheSavingsAccount)
 router.post('/update-savings-account-add/:iban',accountController.updateSavingsAccountAdd)
 
-
 // Delete specific current account by id
 router.delete('/delete-current-account/:id', auth.verifyRToken, accountController.removeCurrentAccount)
 // Delete specific savings account by id
