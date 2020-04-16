@@ -4,6 +4,7 @@ let CAccount = require('../../models/accounts/current-account')
 let SAccount = require('../../models/accounts/savings-account')
 let User = require('../../models/users/user-model')
 let moment = require('moment')
+let Transaction = require('../../models/financial-institution/transaction')
 let Bank = require('../../models/financial-institution/financial-institution')
 let BankAccountC = ''
 let BankAccountS = ''
@@ -187,7 +188,6 @@ router.removeSavingsAccount = (req, res) => {
 
 // Find one single current account by id
 router.showIndividualCurrentAccount = (req, res) => {
-  console.log(req.params.id)
   CAccount.findOne({ _id: req.params.id }, (error, account) => {
     if (error) {
       return res.send({ message: false })
@@ -206,10 +206,8 @@ router.showIndividualCurrentAccountIBAN = (req, res) => {
       return res.send({ message: false })
     }
     if (!account) {
-      console.log(false)
       return res.send({ message: false })
     }
-    console.log(true)
     return res.status(200).send({ account: account, message: true })
   }).catch((error) => {
     return res.send({ message: false })
@@ -545,7 +543,7 @@ router.updateTheSavingsAccount = async (req, res) => {
 }
 
 router.updateSavingsAccountAdd = (req, res) => {
-  transactionLog(req)
+  transactionLogSavings(req)
   const iban = req.body[0]
   SAccount.findOne({ iban: iban }, (error, account) => {
     if (error) {
@@ -574,7 +572,7 @@ router.updateSavingsAccountAdd = (req, res) => {
 }
 
 router.updateCurrentAccountAdd = (req, res) => {
-  transactionLog(req)
+  transactionLogCurrent(req)
   const iban = req.body[0]
   CAccount.findOne({ iban: iban }, (error, account) => {
     if (error) {
@@ -602,8 +600,48 @@ router.updateCurrentAccountAdd = (req, res) => {
   })
 }
 
-function transactionLog(data){
-console.log(data)
+function transactionLogCurrent(data){
+  console.log("data"+data)
+  const transaction = new Transaction({
+    userID: null,
+    fiId: null,
+    accountType:"Current",
+    account_from_ID: null, //fk
+    account_to_ID: null, //fk
+    transactionType: null,
+    amount:null,
+    description:null,
+    start_date:null,
+    endDate:null,
+    currency:null,
+    frequency:null,
+    transaction_code:null,
+    auth_code:null,
+    credit_debit:null,
+  });
+  transaction.save()
+}
+
+function transactionLogSavings(data){
+  console.log("body"+data.body)
+  const transaction = new Transaction({
+    userID: null,
+    fiId: null,
+    accountType:"Savings",
+    account_from_ID: null, //fk
+    account_to_ID: null, //fk
+    transactionType: null,
+    amount:null,
+    description:null,
+    start_date:null,
+    endDate:null,
+    currency:null,
+    frequency:null,
+    transaction_code:null,
+    auth_code:null,
+    credit_debit:null,
+  });
+  transaction.save()
 }
 
 module.exports = router
