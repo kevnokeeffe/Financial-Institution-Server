@@ -255,6 +255,7 @@ router.updateTheCurrentAccount = async (req, res) => {
       return res.send({ message: false })
     }
     if (account) {
+      transactionLogCurrentSubtract(req.body,account)
       let newBalance = account.balance - req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
@@ -405,6 +406,7 @@ router.updateTheSavingsAccount = async (req, res) => {
       return res.send({ message: false })
     }
     if (account) {
+      transactionLogSavingsSubtract(req.body,account)
       let newBalance = account.balance - req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
@@ -543,7 +545,6 @@ router.updateTheSavingsAccount = async (req, res) => {
 }
 
 router.updateSavingsAccountAdd = (req, res) => {
-  transactionLogSavings(req.body)
   const iban = req.body[0]
   SAccount.findOne({ iban: iban }, (error, account) => {
     if (error) {
@@ -553,6 +554,7 @@ router.updateSavingsAccountAdd = (req, res) => {
       return res.send({ message: false })
     }
     if (account) {
+      transactionLogSavingsAdd(req.body,account)
       let newBalance = account.balance + req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
@@ -572,7 +574,6 @@ router.updateSavingsAccountAdd = (req, res) => {
 }
 
 router.updateCurrentAccountAdd = (req, res) => {
-  transactionLogCurrent(req.body)
   const iban = req.body[0]
   CAccount.findOne({ iban: iban }, (error, account) => {
     if (error) {
@@ -582,6 +583,7 @@ router.updateCurrentAccountAdd = (req, res) => {
       return res.send({ message: false })
     }
     if (account) {
+      transactionLogCurrentAdd(req.body,account)
       let newBalance = account.balance + req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
@@ -600,47 +602,98 @@ router.updateCurrentAccountAdd = (req, res) => {
   })
 }
 
-function transactionLogCurrent(data){
-  console.log("data"+data)
-  console.log("data"+data[1])
+function transactionLogCurrentAdd(data,account){
+  let cb = account.balance + data[2] 
   const transaction = new Transaction({
-    userID: null,
-    fiId: null,
-    accountType:"Current",
-    account_from_ID: null, //fk
-    account_to_ID: null, //fk
+    userID: account.userId,
+    fiId: account.bankId,
+    accountType:account.accountType,
+    account_from_ID: data[0], //fk
+    account_to_ID: data[1], //fk
     transactionType: null,
-    amount:null,
+    amount:data[2],
     description:null,
     start_date:null,
     endDate:null,
-    currency:null,
+    currency:account.currency,
     frequency:null,
     transaction_code:null,
     auth_code:null,
-    credit_debit:null,
+    accountID:account._id,
+    currentBalance:cb,
+    credit_debit:"credit",
   });
   transaction.save()
 }
 
-function transactionLogSavings(data){
-  console.log("body"+data[0])
+function transactionLogSavingsAdd(data,account){
+  let cb = account.balance + data[2] 
   const transaction = new Transaction({
-    userID: null,
-    fiId: null,
-    accountType:"Savings",
-    account_from_ID: null, //fk
-    account_to_ID: null, //fk
+    userID: account.userId,
+    fiId: account.bankId,
+    accountType:account.accountType,
+    account_from_ID: data[0], //fk
+    account_to_ID: data[1], //fk
     transactionType: null,
-    amount:null,
+    amount:data[2],
     description:null,
     start_date:null,
     endDate:null,
-    currency:null,
+    currency:account.currency,
     frequency:null,
     transaction_code:null,
     auth_code:null,
-    credit_debit:null,
+    accountID:account._id,
+    currentBalance:cb,
+    credit_debit:"credit",
+  });
+  transaction.save()
+}
+
+function transactionLogCurrentSubtract(data,account){
+  let cb = account.balance - data[2] 
+  const transaction = new Transaction({
+    userID: account.userId,
+    fiId: account.bankId,
+    accountType:account.accountType,
+    account_from_ID: data[1], //fk
+    account_to_ID: data[0], //fk
+    transactionType: null,
+    amount:data[2],
+    description:null,
+    start_date:null,
+    endDate:null,
+    currency:account.currency,
+    frequency:null,
+    transaction_code:null,
+    currentBalance:cb,
+    accountID:account._id,
+    auth_code:null,
+    credit_debit:"debit",
+  });
+  transaction.save()
+}
+
+function transactionLogSavingsSubtract(data,account){
+  let cb = account.balance - data[2] 
+  const transaction = new Transaction({
+    userID: account.userId,
+    fiId: account.bankId,
+    accountType:account.accountType,
+    account_from_ID: data[1], //fk
+    account_to_ID: data[0], //fk
+    transactionType: null,
+    amount:data[2],
+    description:null,
+    start_date:null,
+    endDate:null,
+    currency:account.currency,
+    frequency:null,
+    transaction_code:null,
+    currentBalance:cb,
+    auth_code:null,
+    accountID:account._id,
+    credit_debit:"debit",
   });
   transaction.save()
 }

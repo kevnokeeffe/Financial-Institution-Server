@@ -15,6 +15,8 @@ const TransactionSchema = new mongoose.Schema({
     transaction_code:{type: String},
     auth_code:{type: String},
     credit_debit:{type: String},
+    currentBalance:{type: Number},
+    accountID:{type: String},
     timeStamp: {type: Date, default: Date.now}
 },{ collection: 'transaction' })
 TransactionSchema.set('timestamps', true)
