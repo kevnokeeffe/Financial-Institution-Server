@@ -255,7 +255,7 @@ router.updateTheCurrentAccount = async (req, res) => {
       return res.send({ message: false })
     }
     if (account) {
-      transactionLogCurrentSubtract(req.body,account)
+      // transactionLogCurrentSubtract(req.body,account)
       let newBalance = account.balance - req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
@@ -266,6 +266,7 @@ router.updateTheCurrentAccount = async (req, res) => {
           if (error) {
             return res.send({ message: false })
           }
+          transactionLogCurrentSubtract(req.body,account)
         }
       ).then(async (resp) => {
         await axios
@@ -406,7 +407,7 @@ router.updateTheSavingsAccount = async (req, res) => {
       return res.send({ message: false })
     }
     if (account) {
-      transactionLogSavingsSubtract(req.body,account)
+      // transactionLogSavingsSubtract(req.body,account)
       let newBalance = account.balance - req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
@@ -417,6 +418,7 @@ router.updateTheSavingsAccount = async (req, res) => {
           if (error) {
             return res.send({ message: false })
           }
+          transactionLogSavingsSubtract(req.body,account)
         }
       ).then(async (resp) => {
         await axios
@@ -554,7 +556,7 @@ router.updateSavingsAccountAdd = (req, res) => {
       return res.send({ message: false })
     }
     if (account) {
-      transactionLogSavingsAdd(req.body,account)
+      // transactionLogSavingsAdd(req.body,account)
       let newBalance = account.balance + req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
@@ -565,6 +567,7 @@ router.updateSavingsAccountAdd = (req, res) => {
           if (error) {
             return res.send({ message: false })
           } else {
+            transactionLogSavingsAdd(req.body,account)
             return res.send({ message: true })
           }
         }
@@ -583,7 +586,7 @@ router.updateCurrentAccountAdd = (req, res) => {
       return res.send({ message: false })
     }
     if (account) {
-      transactionLogCurrentAdd(req.body,account)
+      // transactionLogCurrentAdd(req.body,account)
       let newBalance = account.balance + req.body[2]
       const updateBalance = account
       updateBalance.balance = newBalance
@@ -594,6 +597,7 @@ router.updateCurrentAccountAdd = (req, res) => {
           if (error) {
             return res.send({ message: false })
           } else {
+            transactionLogCurrentAdd(req.body,account)
             return res.send({ message: true })
           }
         }
