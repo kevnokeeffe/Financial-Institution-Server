@@ -543,7 +543,7 @@ router.updateTheSavingsAccount = async (req, res) => {
 }
 
 router.updateSavingsAccountAdd = (req, res) => {
-  transactionLogSavings(req)
+  transactionLogSavings(req.body)
   const iban = req.body[0]
   SAccount.findOne({ iban: iban }, (error, account) => {
     if (error) {
@@ -572,7 +572,7 @@ router.updateSavingsAccountAdd = (req, res) => {
 }
 
 router.updateCurrentAccountAdd = (req, res) => {
-  transactionLogCurrent(req)
+  transactionLogCurrent(req.body)
   const iban = req.body[0]
   CAccount.findOne({ iban: iban }, (error, account) => {
     if (error) {
@@ -602,6 +602,7 @@ router.updateCurrentAccountAdd = (req, res) => {
 
 function transactionLogCurrent(data){
   console.log("data"+data)
+  console.log("data"+data[1])
   const transaction = new Transaction({
     userID: null,
     fiId: null,
@@ -623,7 +624,7 @@ function transactionLogCurrent(data){
 }
 
 function transactionLogSavings(data){
-  console.log("body"+data.body)
+  console.log("body"+data[0])
   const transaction = new Transaction({
     userID: null,
     fiId: null,
