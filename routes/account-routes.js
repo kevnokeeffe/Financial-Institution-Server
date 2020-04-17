@@ -19,6 +19,10 @@ router.get('/find-savings-individual/:id', auth.verifyRToken, accountController.
 // Read one individual savings account by IBAN
 router.get('/find-savings-individual/iban/:iban', accountController.showIndividualSavingsAccountIBAN)
 
+// Get all current account transaction details
+router.get('/get-transactions-current',  accountController.getAllTransactionCurrent)
+// Get all savings account transaction details
+router.get('/get-transactions-savings',  accountController.getAllTransactionSavings)
 
 // Current Account Balance Updating Routes
 router.post('/update-current-account-with/:id',auth.verifyRToken, accountController.updateTheCurrentAccount)

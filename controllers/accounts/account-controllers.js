@@ -20,6 +20,34 @@ router.indexCurrentAccount = async (req, res) => {
   })
 }
 
+// Find all Transactions Savings
+router.getAllTransactionSavings = async (req,res) => {
+  let save = "Savings"
+  Transaction.find({accountType:save},(error, transactions) =>{
+    if (error) {
+      return res.send({ message: false })
+    }
+    else if(transactions.length < 1 ){
+      return res.send({message:"No transactions"})
+    }
+    return res.status(200).send({ transactions, message:true })
+  })
+}
+
+// Find all Transactions Current
+router.getAllTransactionCurrent = async (req,res) => {
+  let current = "Current"
+  Transaction.find({accountType:current},(error, transactions) =>{
+    if (error) {
+      return res.send({ message: false })
+    }
+    else if(transactions.length < 1 ){
+      return res.send({message:"No transactions"})
+    }
+    return res.status(200).send({ transactions, message:true })
+  })
+}
+
 // Find all Savings Accounts
 router.indexSavingsAccount = async (req, res) => {
   await SAccount.find({}, (error, saccount) => {
