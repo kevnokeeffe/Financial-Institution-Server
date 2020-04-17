@@ -76,8 +76,9 @@ router.createCurrentAccount = (req, res) => {
       bankId: BankAccountC, //fk
       accountType: req.body.accountType,
       balance: req.body.balance,
-      overDraft: req.body.overDraft,
       currency: req.body.currency,
+      accountName: req.body.accountName,
+      accountNumber: req.body.accountNumber,
       iban: req.body.iban,
     })
     // currentAccount.userId = user._id
@@ -106,12 +107,11 @@ router.createSavingsAccount = (req, res) => {
     const createSavings = new SAccount({
       fiName: req.body.fiName,
       userId: req.body.userId, //fk
-      bankId: this.BankAccountS, //fk
+      bankId: BankAccountS, //fk
       accountType: req.body.accountType,
       balance: req.body.balance,
       accountName: req.body.accountName,
       accountNumber: req.body.accountNumber,
-
       currency: req.body.currency,
       iban: req.body.iban,
     })
@@ -294,7 +294,7 @@ router.updateTheCurrentAccount = async (req, res) => {
           if (error) {
             return res.send({ message: false })
           }
-          transactionLogCurrentSubtract(req.body,account)
+          
         }
       ).then(async (resp) => {
         await axios
@@ -306,6 +306,7 @@ router.updateTheCurrentAccount = async (req, res) => {
           )
           .then((response) => {
             if (response.data.message === true) {
+              transactionLogCurrentSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -321,6 +322,7 @@ router.updateTheCurrentAccount = async (req, res) => {
           )
           .then((resp) => {
             if (resp.data.message === true) {
+              transactionLogCurrentSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -336,6 +338,7 @@ router.updateTheCurrentAccount = async (req, res) => {
           )
           .then((response) => {
             if (response.data.message === true) {
+              transactionLogCurrentSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -351,6 +354,7 @@ router.updateTheCurrentAccount = async (req, res) => {
           )
           .then((resp) => {
             if (resp.data.message === true) {
+              transactionLogCurrentSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -366,6 +370,7 @@ router.updateTheCurrentAccount = async (req, res) => {
           )
           .then((response) => {
             if (response.data.message === true) {
+              transactionLogCurrentSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -381,6 +386,7 @@ router.updateTheCurrentAccount = async (req, res) => {
           )
           .then((resp) => {
             if (resp.data.message === true) {
+              transactionLogCurrentSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -396,6 +402,7 @@ router.updateTheCurrentAccount = async (req, res) => {
           )
           .then((response) => {
             if (response.data.message === true) {
+              transactionLogCurrentSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -411,6 +418,7 @@ router.updateTheCurrentAccount = async (req, res) => {
           )
           .then((resp) => {
             if (resp.data.message === true) {
+              transactionLogCurrentSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -446,7 +454,6 @@ router.updateTheSavingsAccount = async (req, res) => {
           if (error) {
             return res.send({ message: false })
           }
-          transactionLogSavingsSubtract(req.body,account)
         }
       ).then(async (resp) => {
         await axios
@@ -458,6 +465,7 @@ router.updateTheSavingsAccount = async (req, res) => {
           )
           .then((response) => {
             if (response.data.message === true) {
+              transactionLogSavingsSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -473,6 +481,7 @@ router.updateTheSavingsAccount = async (req, res) => {
           )
           .then((response) => {
             if (response.data.message === true) {
+              transactionLogSavingsSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -488,6 +497,7 @@ router.updateTheSavingsAccount = async (req, res) => {
           )
           .then((response) => {
             if (response.data.message === true) {
+              transactionLogSavingsSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -503,6 +513,7 @@ router.updateTheSavingsAccount = async (req, res) => {
           )
           .then((resp) => {
             if (resp.data.message === true) {
+              transactionLogSavingsSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -518,6 +529,7 @@ router.updateTheSavingsAccount = async (req, res) => {
           )
           .then((response) => {
             if (response.data.message === true) {
+              transactionLogSavingsSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -533,6 +545,7 @@ router.updateTheSavingsAccount = async (req, res) => {
           )
           .then((resp) => {
             if (resp.data.message === true) {
+              transactionLogSavingsSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -548,6 +561,7 @@ router.updateTheSavingsAccount = async (req, res) => {
           )
           .then((response) => {
             if (response.data.message === true) {
+              transactionLogSavingsSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -563,6 +577,7 @@ router.updateTheSavingsAccount = async (req, res) => {
           )
           .then((resp) => {
             if (resp.data.message === true) {
+              transactionLogSavingsSubtract(data,account)
               return res.status(200).send({ message: true })
             }
           })
@@ -635,7 +650,7 @@ router.updateCurrentAccountAdd = (req, res) => {
 }
 
 function transactionLogCurrentAdd(data,account){
-  let cb = account.balance + data[2] 
+  let nb = account.balance + data[2] 
   const transaction = new Transaction({
     userID: account.userId,
     fiId: account.bankId,
@@ -652,14 +667,15 @@ function transactionLogCurrentAdd(data,account){
     transaction_code:null,
     auth_code:null,
     accountID:account._id,
-    currentBalance:cb,
+    currentBalance:account.balance,
+    updatedBalance:nb,
     credit_debit:"credit",
   });
   transaction.save()
 }
 
 function transactionLogSavingsAdd(data,account){
-  let cb = account.balance + data[2] 
+  let nb = account.balance + data[2] 
   const transaction = new Transaction({
     userID: account.userId,
     fiId: account.bankId,
@@ -676,14 +692,15 @@ function transactionLogSavingsAdd(data,account){
     transaction_code:null,
     auth_code:null,
     accountID:account._id,
-    currentBalance:cb,
+    currentBalance:account.balance,
+    updatedBalance:nb,
     credit_debit:"credit",
   });
   transaction.save()
 }
 
 function transactionLogCurrentSubtract(data,account){
-  let cb = account.balance - data[2] 
+  let nb = account.balance - data[2] 
   const transaction = new Transaction({
     userID: account.userId,
     fiId: account.bankId,
@@ -698,7 +715,8 @@ function transactionLogCurrentSubtract(data,account){
     currency:account.currency,
     frequency:null,
     transaction_code:null,
-    currentBalance:cb,
+    currentBalance:account.balance,
+    updatedBalance:nb,
     accountID:account._id,
     auth_code:null,
     credit_debit:"debit",
@@ -707,7 +725,7 @@ function transactionLogCurrentSubtract(data,account){
 }
 
 function transactionLogSavingsSubtract(data,account){
-  let cb = account.balance - data[2] 
+  let nb = account.balance - data[2] 
   const transaction = new Transaction({
     userID: account.userId,
     fiId: account.bankId,
@@ -722,7 +740,8 @@ function transactionLogSavingsSubtract(data,account){
     currency:account.currency,
     frequency:null,
     transaction_code:null,
-    currentBalance:cb,
+    currentBalance:account.balance,
+    updatedBalance:nb,
     auth_code:null,
     accountID:account._id,
     credit_debit:"debit",

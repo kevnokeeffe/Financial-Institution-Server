@@ -9,7 +9,6 @@ const currentAccountSchema = new mongoose.Schema({
     bankId: {type:String}, //fk
     accountType: {type: String},
     balance: {type: Number},
-    overDraft: {type: Number},
     currency: {type: String},
     iban: {type: String},
     creationDate: {type: String},

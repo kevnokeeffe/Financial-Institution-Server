@@ -16,6 +16,7 @@ const TransactionSchema = new mongoose.Schema({
     auth_code:{type: String},
     credit_debit:{type: String},
     currentBalance:{type: Number},
+    updatedBalance:{type:Number},
     accountID:{type: String},
     timeStamp: {type: Date, default: Date.now}
 },{ collection: 'transaction' })
