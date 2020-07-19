@@ -35,7 +35,7 @@
     "heroku": "^7.38.2",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mongoose": "^5.9.0",
     "ncp": "^2.0.0",
     "validatorjs": "^3.18.1"
